@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.NoticeDao">
+
+	<resultMap type="com.newlecture.web.entity.NoticeView" id="noticeViewMap">
+		<result property="id" column="ID" />
+	</resultMap>
+	
+	<!-- 테스트용 -->
+	<!-- <select id="getl" resultType="com.newlecture.web.entity.NoticeView">
+		SELECT * FROM NOTICE_VIEW WHERE ID = 93
+	</select> -->
+	
+	<select id="getViewList" resultMap="noticeViewMap">
+		SELECT N.*
+		FROM (SELECT ROW_NUMBER() OVER (ORDER BY REGDATE DESC) NUM, NOTICE_VIEW.* FROM NOTICE_VIEW
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test='field == "title" or field == "writer_id" and query != null'>
+				${field} LIKE '%${query}%'
+			</if>
+			<if test='isAdmin==false'>
+				AND PUB = 1
+			</if>
+			) N
+		</trim>
+		WHERE NUM BETWEEN ${startNum} AND ${endNum}
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT count(id) count FROM Notice
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test='field == "title" or field == "writer_id" and query != null '>
+				${field} LIKE '%${query}%'
+			</if>
+			<if test='isAdmin==false'>
+				AND PUB = 1
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getComment" resultType="com.newlecture.web.entity.Comment">
+		SELECT *
+		FROM "COMMENT"
+		WHERE NOTICE_ID = #{notice_id}
+		ORDER BY REGDATE ASC
+	</select>
+	
+	<insert id="insertComment" parameterType="com.newlecture.web.entity.Comment">
+		INSERT
+		INTO "COMMENT"(CONTENT, WRITER_ID, NOTICE_ID)
+		VALUES(#{content}, #{writer_id}, #{notice_id})
+	</insert>
+	
+	<delete id="deleteComment">
+		DELETE "COMMENT"
+		WHERE COMMENT_ID = #{comment_id}
+	</delete>
+	
+	<select id="getHit" resultType="int">
+		SELECT HIT
+		FROM NOTICE
+		WHERE ID = #{id}
+	</select>
+	
+	<update id="hitUp">
+		UPDATE NOTICE
+		SET HIT = #{hit}
+		WHERE ID = #{id}
+	</update>
+
+	<select id="getNotice" resultType="com.newlecture.web.entity.Notice">
+		SELECT * FROM Notice
+		WHERE id = #{id}
+	</select>
+		
+	<select id="getNext" resultType="com.newlecture.web.entity.Notice">
+		SELECT *
+		FROM (SELECT *
+				FROM NOTICE
+				WHERE REGDATE &gt; (SELECT REGDATE
+									FROM NOTICE
+									WHERE ID = #{id})
+				ORDER BY REGDATE)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<select id="getPrev" resultType="com.newlecture.web.entity.Notice">
+		SELECT *
+		FROM (SELECT *
+				FROM NOTICE
+				WHERE REGDATE &lt; (SELECT REGDATE
+									FROM NOTICE
+									WHERE ID = #{id})
+				ORDER BY REGDATE DESC)
+		WHERE ROWNUM = 1
+	</select>
+	
+	<update id="update" parameterType="com.newlecture.web.entity.Notice">
+		update Notice
+		set
+			TITLE = #{title},
+			WRITER_ID = #{writer_id},
+			FILES = #{files},
+			CONTENT = #{content},
+			HIT = #{hit},
+			PUB = #{pub}
+		where id = #{id}
+	</update>
+	
+	<insert id="insert" parameterType="com.newlecture.web.entity.Notice">
+		insert into Notice(TITLE, WRITER_ID, FILES, CONTENT, PUB)
+		values(#{title}, #{writer_id}, #{files}, #{content}, #{pub})
+	</insert>
+	
+	<delete id="delete">
+		delete Notice
+		where id = #{id}
+	</delete>
+	
+	<delete id="deleteAll">
+		delete Notice
+		where
+	    <foreach item="id" index="index" collection="delIds"
+        open="ID IN (" separator="," close=")">
+        	#{id}
+    	</foreach>
+	</delete>
+	
+	<update id="updatePubAll">
+		BEGIN
+			UPDATE Notice
+			SET pub = 1
+			WHERE 
+			<foreach item="id" index="index" collection="pubIds"
+        	open="ID IN (" separator="," close=")">
+	        	#{id}
+    		</foreach>
+			;
+    		UPDATE Notice
+			SET pub = 0
+			WHERE 
+			<foreach item="id" index="index" collection="closeIds"
+        	open="ID IN (" separator="," close=")">
+	        	#{id}
+    		</foreach>
+			;
+    	END;
+	</update>
+	
+</mapper>
