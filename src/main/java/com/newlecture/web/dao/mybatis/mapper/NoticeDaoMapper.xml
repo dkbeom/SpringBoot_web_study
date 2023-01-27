@@ -102,7 +102,7 @@
 		set
 			TITLE = #{title},
 			WRITER_ID = #{writer_id},
-			FILES = #{files},
+			FILEUUID = #{fileUUID},
 			CONTENT = #{content},
 			HIT = #{hit},
 			PUB = #{pub}
@@ -110,8 +110,8 @@
 	</update>
 	
 	<insert id="insert" parameterType="com.newlecture.web.entity.Notice">
-		insert into Notice(TITLE, WRITER_ID, FILES, CONTENT, PUB)
-		values(#{title}, #{writer_id}, #{files}, #{content}, #{pub})
+		insert into Notice(TITLE, WRITER_ID, FILEUUID, CONTENT, PUB)
+		values(#{title}, #{writer_id}, #{fileUUID}, #{content}, #{pub})
 	</insert>
 	
 	<delete id="delete">

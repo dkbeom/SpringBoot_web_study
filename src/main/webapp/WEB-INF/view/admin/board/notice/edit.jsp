@@ -15,7 +15,7 @@
                 <form method="post" enctype="multipart/form-data">
                     <div class="margin-top first">
                         <h3 class="hidden">공지사항 입력</h3>
-                        <input type="hidden" name="notice_id" value="${n.id}"/>
+                        <input type="hidden" name="id" value="${n.id}"/>
                         <input type="hidden" name="hit" value="${n.hit}"/>
                         <table class="table">
                             <tbody>
@@ -28,7 +28,7 @@
                                 <tr>
                                     <th>첨부파일</th>
                                     <td colspan="3" class="text-align-left text-indent">
-                                    	<input type="file" name="file"/>${n.files}
+                                    	<input type="file" name="file" />${fileName}
                                     </td>
                                 </tr>
                                 <tr class="content">

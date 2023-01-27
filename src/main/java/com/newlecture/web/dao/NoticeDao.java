@@ -27,7 +27,7 @@ public interface NoticeDao {
 	Notice getPrev(int id);
 
 	int update(Notice notice);
-	int insert(Notice notice);	
+	int insert(Notice notice);
 	int delete(int id);
 	
 	int deleteAll(String[] delIds);

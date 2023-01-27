@@ -5,6 +5,10 @@ public class LoginForm {
 	private String loginid;
 	private String loginpwd;
 	
+	public LoginForm() {
+		
+	}
+	
 	public LoginForm(String loginid, String loginpwd) {
 		this.loginid = loginid;
 		this.loginpwd = loginpwd;

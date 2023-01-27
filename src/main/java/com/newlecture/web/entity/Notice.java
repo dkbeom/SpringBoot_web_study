@@ -9,14 +9,14 @@ public class Notice {
 	private String content;
 	private Date regdate;
 	private int hit;
-	private String files;
+	private String fileUUID;
 	private boolean pub;
 	
 	public Notice() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Notice(int id, String title, String writer_id, String content, Date regdate, int hit, String files,
+	public Notice(int id, String title, String writer_id, String content, Date regdate, int hit, String fileUUID,
 			boolean pub) {
 		this.id = id;
 		this.title = title;
@@ -24,7 +24,7 @@ public class Notice {
 		this.content = content;
 		this.regdate = regdate;
 		this.hit = hit;
-		this.files = files;
+		this.fileUUID = fileUUID;
 		this.pub = pub;
 	}
 
@@ -76,12 +76,12 @@ public class Notice {
 		this.hit = hit;
 	}
 
-	public String getFiles() {
-		return files;
+	public String getFileUUID() {
+		return fileUUID;
 	}
 
-	public void setFiles(String files) {
-		this.files = files;
+	public void setFileUUID(String fileUUID) {
+		this.fileUUID = fileUUID;
 	}
 
 	public boolean isPub() {
@@ -95,6 +95,6 @@ public class Notice {
 	@Override
 	public String toString() {
 		return "Notice [id=" + id + ", title=" + title + ", writer_id=" + writer_id + ", content=" + content
-				+ ", regdate=" + regdate + ", hit=" + hit + ", files=" + files + ", pub=" + pub + "]";
+				+ ", regdate=" + regdate + ", hit=" + hit + ", fileUUID=" + fileUUID + ", pub=" + pub + "]";
 	}
 }

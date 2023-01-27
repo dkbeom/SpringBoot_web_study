@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newlecture.web.entity.LoginForm;
 import com.newlecture.web.entity.Member;
@@ -36,12 +37,12 @@ public class MemberController {
 
 	// 로그인 정보를 입력하고 난 후
 	@PostMapping("login")
-	public String login(@ModelAttribute LoginForm loginForm, HttpSession session, BindingResult bindingResult,
-			Model model) {
+	public String login(@ModelAttribute LoginForm loginForm, HttpSession session,
+						BindingResult bindingResult, Model model) {
 
-		// bindingResult.hasErrors()
+		// loginForm에 타입 오류가 발생할 경우
 		if (bindingResult.hasErrors()) {
-			return "member.login";
+			return "redirect:login";
 		}
 
 		// 로그인 폼에서 아이디, 비밀번호를 꺼내서 login을 시킴
@@ -49,16 +50,14 @@ public class MemberController {
 
 		// 로그인 실패(id, pw 에 맞는 Member가 없음)
 		if (loginMember == null) {
-			System.out.println("로그인_실패");
-			model.addAttribute("로그인_실패", "로그인_실패");
-			return "member.login";
+			return "redirect:login";
 		}
 
 		// 로그인 실패가 아니라면, 로그인 성공!!
 
 		// 세션에 Member 정보 저장
 		session.setAttribute("loginSession", loginMember);
-
+		
 		return "redirect:/index";
 	}
 

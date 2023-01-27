@@ -1,49 +1,54 @@
 package com.newlecture.web.controller.admin.board;
 
-import java.io.File;
-import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.newlecture.web.entity.Comment;
+import com.newlecture.web.entity.FileEntity;
 import com.newlecture.web.entity.Member;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.entity.NoticeView;
+import com.newlecture.web.service.FileService;
 import com.newlecture.web.service.NoticeService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller("adminNoticeController")
 @RequestMapping("/admin/board/notice/")
+@RequiredArgsConstructor
 public class NoticeController {
-
-	@Autowired
-	private ServletContext ctx;
-
-	@Autowired
-	private NoticeService service;
+	
+	private final FileService fileService;
+	private final NoticeService noticeService;
 
 	// 공지사항 목록 조회(관리자)(공지사항 목록 페이지)
 	@GetMapping("list")
 	public String list(String p, String f, String q, Model model, HttpSession session) {
-
+		
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
 		// 관리자가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/customer/notice/list";
 		}
-		
+
 		int page = 1;
 		// p가 제대로 왔다면(p가 null이 아니고, 빈문자열이 아니라면)
 		if (p != null && !p.equals(""))
@@ -59,8 +64,8 @@ public class NoticeController {
 		if (q != null && !q.equals(""))
 			query = q;
 
-		List<NoticeView> list = service.getViewList(page, field, query, true);
-		int count = service.getCount(field, query, true);
+		List<NoticeView> list = noticeService.getViewList(page, field, query, true);
+		int count = noticeService.getCount(field, query, true);
 
 		model.addAttribute("list", list);
 		model.addAttribute("count", count);
@@ -86,12 +91,12 @@ public class NoticeController {
 			List<String> closeIds = new ArrayList(Arrays.asList(notice_idsArr));
 			closeIds.removeAll(openIds);
 
-			int pubResult = service.updatePubAll(openIds, closeIds);
+			noticeService.updatePubAll(openIds, closeIds);
 
 			break;
 		case "일괄삭제":
 
-			int delResult = service.deleteAll(del);
+			noticeService.deleteAll(del);
 
 			break;
 		}
@@ -107,18 +112,25 @@ public class NoticeController {
 
 		// 관리자가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
-			return "redirect:/customer/notice/detail?id="+id;
+			return "redirect:/customer/notice/detail?id=" + id;
 		}
 
-		Notice notice = service.getNotice(id);
-		Notice nextNotice = service.getNext(id);
-		Notice prevNotice = service.getPrev(id);
-		List<Comment> comments = service.getComment(id);
+		Notice notice = noticeService.getNotice(id);
+		Notice nextNotice = noticeService.getNext(id);
+		Notice prevNotice = noticeService.getPrev(id);
+		List<Comment> comments = noticeService.getComment(id);
 
 		model.addAttribute("n", notice);
 		model.addAttribute("next", nextNotice);
 		model.addAttribute("prev", prevNotice);
 		model.addAttribute("cmt", comments);
+
+		if (notice.getFileUUID() != null) {
+			String fileUUID = notice.getFileUUID();
+			String fileName = fileService.findFileNameByUUID(fileUUID);
+			model.addAttribute("fileUUID", fileUUID);
+			model.addAttribute("fileName", fileName);
+		}
 
 		return "admin.board.notice.detail";
 	}
@@ -129,7 +141,7 @@ public class NoticeController {
 
 		// 댓글 삭제 버튼을 눌렀을 때(댓글 쓰기 버튼을 누르지 않았을 때)
 		if (delete != null) {
-			service.deleteComment(Integer.parseInt(delete));
+			noticeService.deleteComment(Integer.parseInt(delete));
 		}
 		// 댓글 삭제 버튼을 누르지 않았을 때(댓글 쓰기 버튼을 눌렀을 때)
 		else {
@@ -137,7 +149,7 @@ public class NoticeController {
 			comment.setContent(content);
 			comment.setWriter_id(commentWriter);
 			comment.setNotice_id(noticeId);
-			service.insertComment(comment);
+			noticeService.insertComment(comment);
 		}
 
 		return "redirect:detail?id=" + noticeId;
@@ -161,38 +173,28 @@ public class NoticeController {
 	@PostMapping("reg")
 	public String reg(String title, String content, MultipartFile file, boolean open) {
 
-		// 실제 물리경로 얻기
-		String webPath = "/upload";
-		String realPath = ctx.getRealPath(webPath);
-
-		// 업로드하기 위한 경로가 없을 경우
-		File savePath = new File(realPath);
-		if (!savePath.exists())
-			savePath.mkdirs();
-
-		// 실제 물리경로에 경로 구분자와 데이터로 받아온 파일의 이름 추가
-		String fileName = file.getOriginalFilename();
-		realPath += File.separator + fileName; // 운영체제에 따른 경로 구분자 추가
-		// 받아온 파일의 실제 경로를 이용해서 File 객체 만듬
-		File saveFile = new File(realPath);
-		// 가져온 멀티파일 객체를 실제 물리경로에 저장
-		try {
-			file.transferTo(saveFile);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		for (MultipartFile file : files) {
+//			// "로컬"과 "데이터베이스"에 파일 저장
+//			fileService.saveFile(file);
+//			// 공지사항 테이블에 저장할 파일 이름들 하나씩 저장
+//			fileName += file.getOriginalFilename()+" ";
+//		}
 
 		// title, writer_id, file, content, pub 데이터베이스에 넣기
 		Notice notice = new Notice();
 		notice.setTitle(title);
 		notice.setWriter_id("newlec");
-		notice.setFiles(fileName);
 		notice.setContent(content);
 		notice.setPub(open);
 
-		service.insert(notice);
+		// 파일이 넘어온 경우
+		if (file != null) {
+			String uuid = UUID.randomUUID().toString();
+			fileService.saveFile(file, uuid);
+			notice.setFileUUID(uuid);
+		}
+
+		noticeService.insert(notice);
 
 		return "redirect:list";
 	}
@@ -200,7 +202,7 @@ public class NoticeController {
 	// 수정 페이지(공지사항 디테일 페이지에서 수정 버튼을 누르면 나오는 페이지)
 	@GetMapping("edit")
 	public String edit(int id, Model model, HttpSession session) {
-		
+
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
 		// 관리자가 아니면, /index 로 보내기
@@ -208,7 +210,11 @@ public class NoticeController {
 			return "redirect:/index";
 		}
 
-		Notice notice = service.getNotice(id);
+		Notice notice = noticeService.getNotice(id);
+		if (notice.getFileUUID() != null) {
+			String fileName = fileService.findFileNameByUUID(notice.getFileUUID());
+			model.addAttribute("fileName", fileName);
+		}
 
 		model.addAttribute("n", notice);
 
@@ -219,40 +225,23 @@ public class NoticeController {
 	@PostMapping("edit")
 	public String edit(int id, int hit, String title, String content, MultipartFile file, boolean open) {
 
-		// 실제 물리경로 얻기
-		String webPath = "/upload";
-		String realPath = ctx.getRealPath(webPath);
-
-		// 업로드하기 위한 경로가 없을 경우
-		File savePath = new File(realPath);
-		if (!savePath.exists())
-			savePath.mkdirs();
-
-		// 실제 물리경로에 경로 구분자와 데이터로 받아온 파일의 이름 추가
-		String fileName = file.getOriginalFilename();
-		realPath += File.separator + fileName; // 운영체제에 따른 경로 구분자 추가
-		// 받아온 파일의 실제 경로를 이용해서 File 객체 만듬
-		File saveFile = new File(realPath);
-		// 가져온 멀티파일 객체를 실제 물리경로에 저장
-		try {
-			file.transferTo(saveFile);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
 		// title, writer_id, file, content, pub 데이터베이스에 넣기
 		Notice notice = new Notice();
 		notice.setId(id);
 		notice.setTitle(title);
 		notice.setWriter_id("newlec");
-		notice.setFiles(fileName);
 		notice.setContent(content);
 		notice.setHit(hit);
 		notice.setPub(open);
 
-		service.update(notice);
+		// 파일이 넘어온 경우
+		if (file != null) {
+			String uuid = UUID.randomUUID().toString();
+			fileService.saveFile(file, uuid);
+			notice.setFileUUID(uuid);
+		}
+
+		noticeService.update(notice);
 
 		return "redirect:list";
 	}
@@ -260,7 +249,7 @@ public class NoticeController {
 	// detail 페이지에서 단일 공지사항 삭제
 	@RequestMapping("del")
 	public String del(int id, HttpSession session) {
-		
+
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
 		// 관리자가 아니면, /index 로 보내기
@@ -268,8 +257,20 @@ public class NoticeController {
 			return "redirect:/index";
 		}
 
-		service.delete(id);
+		noticeService.delete(id);
 
 		return "redirect:list";
 	}
+
+	// 첨부파일 이미지 출력
+	@GetMapping(value = "images/{UUID}", produces = {MediaType.IMAGE_JPEG_VALUE,
+													MediaType.IMAGE_GIF_VALUE})
+	@ResponseBody
+	public Resource image(@PathVariable("UUID") String UUID) throws MalformedURLException {
+
+		FileEntity fileEntity = fileService.findByUUID(UUID);
+
+		return new UrlResource("file:" + fileEntity.getSavedPath());
+	}
+
 }

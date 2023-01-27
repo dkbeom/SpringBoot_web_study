@@ -1,10 +1,12 @@
 package com.newlecture.web.service;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@SpringBootTest
+//@SpringBootTest
+@ExtendWith(SpringExtension.class)
 class NoticeServiceImpTest {
 
 	@Autowired
@@ -14,6 +16,11 @@ class NoticeServiceImpTest {
 	void test() {
 //		System.out.println(service.getViewList("title", "이").get(0));
 //		System.out.println(service.getCount("title", "이"));
+		
+		// given
+//		Mockito.when()
+		
+		
 	}
 
 }

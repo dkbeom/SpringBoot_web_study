@@ -48,7 +48,7 @@
                             <tr>
                                 <th>첨부파일</th>
                                 <td colspan="3" style="text-align: left; text-indent: 10px;">
-                                	<a href="">${n.files}</a>
+                                	<a href="images/${n.fileUUID}">${fileName}</a>
                                 </td>
                             </tr>
                             <tr class="content">
