@@ -34,9 +34,9 @@ class MemberServiceImpTest {
 		// [given]
 		// 주입하고 있는 객체를 세팅
 		Mockito.when(memberDao.getMember("dragon", "222"))
-			.thenReturn(new Member("dragon", "222", "손오공", "wukong",
+			.thenReturn(new Member("id456", "222", "이름456", "nickname456",
 								"남성", "1992-04-21", null,
-								"010-3761-7892", null, "king", 1));
+								"010-9876-5432", null, "bossName", 1));
 		
 		// [when]
 		// 주입하고 있는 객체가 세팅됐으니, Service 객체의 메소드 바로 실행
@@ -44,13 +44,13 @@ class MemberServiceImpTest {
 		
 		// [then]
 		// DAO에서 가져온 entity가 제대로 왔는지 내가 예상한 정보와 비교하며 체크
-		Assertions.assertEquals(member.getId(), "dragon");
-		Assertions.assertEquals(member.getName(), "손오공");
+		Assertions.assertEquals(member.getId(), "id456");
+		Assertions.assertEquals(member.getName(), "이름456");
 		Assertions.assertEquals(member.getGender(), "남성");
 		
 		// verify
 		// memberDao 객체의 getMember 메소드가 "id", "pw" 매개변수로 실행됐는지 체크
-		verify(memberDao).getMember("dragon", "222");
+		verify(memberDao).getMember("id456", "222");
 	}
 
 }

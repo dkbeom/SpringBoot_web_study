@@ -15,7 +15,7 @@
 			height: inherit;
 			display: flex;
 			align-items: center;
-			background: url("../../images/customer/visual.png") no-repeat center;
+			background: url("/images/customer/visual.png") no-repeat center;
 		}
 	</style>
 	<script defer src="/js/notice.js"></script>

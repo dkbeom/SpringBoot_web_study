@@ -30,18 +30,18 @@ public class MemberControllerTest {
 	MemberService memberService;
 	
 	@Test
-	@DisplayName("멤버 정보 가져오는거 테스트")
+	@DisplayName("멤버 정보 가져오기 테스트")
 	void getTest() throws Exception {
 		
 		// [given]
 		// Mock 객체가 특정상황에서 해야하는 행위를 정의하는 메소드
 		given(memberService.login("newlec1","1234"))
-		.willReturn(new Member("newlec1", "1234", "붬뒁권", "abcdef",
+		.willReturn(new Member("id123", "1234", "이름123", "nickname123",
 							   "남성", "1983-03-31", "양력",
-							   "010-1577-1577", "email@email.com", null, 1));
+							   "010-1234-5678", "email@email.com", null, 1));
 		
 		// 아이디 지정
-		String memberName = "붬뒁권";
+		String memberName = "이름123";
 		
 		// [when & then]
 		// REST API 테스트
@@ -53,6 +53,6 @@ public class MemberControllerTest {
 				.andExpect(jsonPath("$.gender").exists())
 				.andDo(print());
 		
-		verify(memberService).login("newlec1", "1234");
+		verify(memberService).login("id123", "1234");
 	}
 }

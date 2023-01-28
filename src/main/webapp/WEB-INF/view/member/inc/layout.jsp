@@ -18,7 +18,7 @@
 			background: url("/images/customer/visual.png") no-repeat center;
 		}
 	</style>
-	<script src="/resource/js/header.js"></script>
+	<script src="/js/header.js"></script>
 </head>
 
 <body>

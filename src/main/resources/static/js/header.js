@@ -1,6 +1,6 @@
 window.addEventListener("load", function () {
             
-    var moreVertButton = document.querySelector(".more-vert-button");
+    //var moreVertButton = document.querySelector(".more-vert-button");
     var hamburgerButton = document.querySelector(".hamburger-button");
     var headerSection = document.querySelector("#header .header-section");
     var mainMenu = document.querySelector(".main-menu");
@@ -25,9 +25,9 @@ window.addEventListener("load", function () {
     });
     subMenu.parentElement.insertBefore(subScreen, subMenu);
     
-    moreVertButton.onclick = function () {
+    //moreVertButton.onclick = function () {
         
-        headerSection.classList.toggle("hide");
+       //headerSection.classList.toggle("hide");
 
         //headerSection.style.display = "flex";
         //headerSection.style.position = "absolute";
@@ -55,7 +55,7 @@ window.addEventListener("load", function () {
         //    // }, 500);
         //}
 
-    };
+    //};
 
     // hamburgerButton.onclick = function () {
     //     subScreen.style.display = "block";
