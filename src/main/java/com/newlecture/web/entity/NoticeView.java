@@ -11,8 +11,8 @@ public class NoticeView extends Notice {
 		
 	}
 
-	public NoticeView(int id, String title, String writer_id, String content, Date regdate, int hit, String fileUUId, boolean pub, int cmt_count) {
-		super(id, title, writer_id, "", regdate, hit, fileUUId, pub);
+	public NoticeView(int id, String title, String writer_nickname, String content, Date regdate, int hit, String fileUUId, boolean pub, int cmt_count) {
+		super(id, title, writer_nickname, "", regdate, hit, fileUUId, pub);
 		
 		this.cmt_count = cmt_count;
 	}
@@ -28,7 +28,7 @@ public class NoticeView extends Notice {
 	@Override
 	public String toString() {
 		return "NoticeView [cmt_count=" + cmt_count + ", getId()=" + getId() + ", getTitle()=" + getTitle()
-				+ ", getwriter_id()=" + getWriter_id() + ", getContent()=" + getContent() + ", getRegdate()="
+				+ ", getWriter_nickname()=" + getWriter_nickname() + ", getContent()=" + getContent() + ", getRegdate()="
 				+ getRegdate() + ", getHit()=" + getHit() + ", getFileUUID()=" + getFileUUID() + ", isPub()=" + isPub()
 				+ ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ "]";

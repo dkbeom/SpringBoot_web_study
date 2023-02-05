@@ -17,7 +17,7 @@
 		SELECT N.*
 		FROM (SELECT ROW_NUMBER() OVER (ORDER BY REGDATE DESC) NUM, NOTICE_VIEW.* FROM NOTICE_VIEW
 		<trim prefix="WHERE" prefixOverrides="AND">
-			<if test='field == "title" or field == "writer_id" and query != null'>
+			<if test='field == "title" or field == "writer_nickname" and query != null'>
 				${field} LIKE '%${query}%'
 			</if>
 			<if test='isAdmin==false'>
@@ -31,7 +31,7 @@
 	<select id="getCount" resultType="int">
 		SELECT count(id) count FROM Notice
 		<trim prefix="WHERE" prefixOverrides="AND">
-			<if test='field == "title" or field == "writer_id" and query != null '>
+			<if test='field == "title" or field == "writer_nickname" and query != null '>
 				${field} LIKE '%${query}%'
 			</if>
 			<if test='isAdmin==false'>
@@ -49,8 +49,8 @@
 	
 	<insert id="insertComment" parameterType="com.newlecture.web.entity.Comment">
 		INSERT
-		INTO "COMMENT"(CONTENT, WRITER_ID, NOTICE_ID)
-		VALUES(#{content}, #{writer_id}, #{notice_id})
+		INTO "COMMENT"(CONTENT, WRITER_NICKNAME, NOTICE_ID)
+		VALUES(#{content}, #{writer_nickname}, #{notice_id})
 	</insert>
 	
 	<delete id="deleteComment">
@@ -101,7 +101,7 @@
 		update Notice
 		set
 			TITLE = #{title},
-			WRITER_ID = #{writer_id},
+			WRITER_NICKNAME = #{writer_nickname},
 			FILEUUID = #{fileUUID},
 			CONTENT = #{content},
 			HIT = #{hit},
@@ -110,8 +110,8 @@
 	</update>
 	
 	<insert id="insert" parameterType="com.newlecture.web.entity.Notice">
-		insert into Notice(TITLE, WRITER_ID, FILEUUID, CONTENT, PUB)
-		values(#{title}, #{writer_id}, #{fileUUID}, #{content}, #{pub})
+		insert into Notice(TITLE, WRITER_NICKNAME, FILEUUID, CONTENT, PUB)
+		values(#{title}, #{writer_nickname}, #{fileUUID}, #{content}, #{pub})
 	</insert>
 	
 	<delete id="delete">

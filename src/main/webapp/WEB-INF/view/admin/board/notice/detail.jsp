@@ -41,7 +41,7 @@
                             </tr>
                             <tr>
                                 <th>작성자</th>
-                                <td>${n.writer_id}</td>
+                                <td>${n.writer_nickname}</td>
                                 <th>조회수</th>
                                 <td>${n.hit}</td>
                             </tr>
@@ -77,7 +77,7 @@
 							<!----------------------------------------- 기존 댓글란 ----------------------------------------->
 							<c:forEach var="c" items="${cmt}">
 								<tr>
-									<td style="width: 100px;">${c.writer_id}</td>
+									<td style="width: 100px;">${c.writer_nickname}</td>
 									<td class="expand" style="text-align: left; padding: 10px 30px;">${c.content}</td>
 									<td style="width: 130px;">
 										<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${c.regdate}" />

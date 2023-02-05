@@ -48,7 +48,7 @@ public class NoticeController {
 		
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/customer/notice/list";
 		}
@@ -114,7 +114,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/customer/notice/detail?id=" + id;
 		}
@@ -150,7 +150,7 @@ public class NoticeController {
 		else {
 			Comment comment = new Comment();
 			comment.setContent(content);
-			comment.setWriter_id(commentWriter);
+			comment.setWriter_nickname(commentWriter);
 			comment.setNotice_id(noticeId);
 			noticeService.insertComment(comment);
 		}
@@ -164,7 +164,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -174,7 +174,7 @@ public class NoticeController {
 
 	// 글쓰기 버튼 누르면 나오는 페이지에서 글쓰기를 했을 때
 	@PostMapping("reg")
-	public String reg(String title, String content, MultipartFile file, boolean open) {
+	public String reg(String title, String content, MultipartFile file, boolean open, HttpSession session) {
 
 //		for (MultipartFile file : files) {
 //			// "로컬"과 "데이터베이스"에 파일 저장
@@ -182,11 +182,18 @@ public class NoticeController {
 //			// 공지사항 테이블에 저장할 파일 이름들 하나씩 저장
 //			fileName += file.getOriginalFilename()+" ";
 //		}
+		
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 관리자(code == 0)가 아니면, /index 로 보내기
+		if (loginMember == null || loginMember.getCode() != 0) {
+			return "redirect:/index";
+		}
 
 		// title, writer_id, file, content, pub 데이터베이스에 넣기
 		Notice notice = new Notice();
 		notice.setTitle(title);
-		notice.setWriter_id("newlec");
+		notice.setWriter_nickname(loginMember.getNickname());
 		notice.setContent(content);
 		notice.setPub(open);
 
@@ -196,7 +203,6 @@ public class NoticeController {
 			fileService.saveFile(file, uuid);
 			notice.setFileUUID(uuid);
 		}
-
 		noticeService.insert(notice);
 
 		return "redirect:list";
@@ -208,7 +214,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -226,13 +232,20 @@ public class NoticeController {
 
 	// 수정 페이지에서 수정을 마치고, 등록을 누른 후의 페이지
 	@PostMapping("edit")
-	public String edit(int id, int hit, String title, String content, MultipartFile file, boolean open) {
+	public String edit(int id, int hit, String title, String content, MultipartFile file, boolean open, HttpSession session) {
 
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 관리자(code == 0)가 아니면, /index 로 보내기
+		if (loginMember == null || loginMember.getCode() != 0) {
+			return "redirect:/index";
+		}
+		
 		// title, writer_id, file, content, pub 데이터베이스에 넣기
 		Notice notice = new Notice();
 		notice.setId(id);
 		notice.setTitle(title);
-		notice.setWriter_id("newlec");
+		notice.setWriter_nickname(loginMember.getNickname());
 		notice.setContent(content);
 		notice.setHit(hit);
 		notice.setPub(open);
@@ -255,7 +268,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -278,7 +291,6 @@ public class NoticeController {
 
 	// 첨부파일 다운로드
 	@GetMapping("attach/{UUID}")
-	@ResponseBody
 	public ResponseEntity<Resource> downloadAttach(@PathVariable("UUID") String uuid) throws MalformedURLException{
 		
 		// 파일 id로 특정 파일 찾기

@@ -2,6 +2,16 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<style>
+	table button {
+		background: #FFC300;
+		border: 1px solid red;
+		border-radius: 5px;
+	}
+	table button:hover {
+		background: #FFBEBE;
+	}
+</style>
 <main>
 	<h2 class="main title">공지사항</h2>
 
@@ -30,7 +40,7 @@
 				</tr>
 				<tr>
 					<th>작성자</th>
-					<td>${n.writer_id}</td>
+					<td>${n.writer_nickname}</td>
 					<th>조회수</th>
 					<td>${n.hit}</td>
 				</tr>
@@ -57,28 +67,35 @@
 	<form action="?id=${param.id}" method="post">
 		<input type="hidden" name="noticeId" value="${param.id}" />
 		<input type="hidden" name="commentWriter" value="${loginSession.nickname}" />
-		<table class="table" style="margin-top: 30px; border-collapse: collapse;">
+		<table class="table"
+			style="margin-top: 30px; border-collapse: collapse;">
 			<tbody>
 				<!----------------------------------------- 기존 댓글란 ----------------------------------------->
 				<c:forEach var="c" items="${cmt}">
 					<tr>
-						<td style="width: 100px;">${c.writer_id}</td>
+						<td style="width: 100px;">${c.writer_nickname}</td>
 						<td class="expand" style="text-align: left; padding: 10px 30px;">${c.content}</td>
-						<td style="width: 150px;">
+						<td style="width: 130px;">
 							<fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${c.regdate}" />
+						</td>
+						<td style="width: 60px;">
+							<c:if test="${not empty loginSession and c.writer_nickname eq loginSession.nickname}">
+								<button type="submit" name="delete" value="${c.comment_id}" onclick="return confirm('해당 댓글을 삭제하시겠습니까?');">삭제</button>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>
 				<!----------------------------------------- 댓글 쓰기 ----------------------------------------->
 				<c:if test="${not empty loginSession and loginSession.code ne '0'}">
-					<tr id="writeComment" style="height:40px; border-top:2px solid skyblue; display:none;">
-						<th style="width: 100px;">${loginSession.nickname}</th>
-						<th class="expand">
+					<tr id="writeComment" style="height: 40px; border-top: 2px solid skyblue; display: none;">
+						<td style="width: 100px;">${loginSession.nickname}</td>
+						<td class="expand">
+							<!-- 댓글쓰기란 -->
 							<input type="text" name="content" placeholder="댓글 추가..." style="width: 100%; height: 30px;" />
-						</th>
-						<th style="width: 150px;">
+						</td>
+						<td style="width: 130px;">
 							<input type="submit" class="btn-text btn-default" value="게시" />
-						</th>
+						</td>
 					</tr>
 				</c:if>
 			</tbody>

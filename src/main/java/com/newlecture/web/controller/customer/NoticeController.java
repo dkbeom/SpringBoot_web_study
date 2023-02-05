@@ -107,14 +107,20 @@ public class NoticeController {
 
 	// 일반 회원이 댓글 달기
 	@PostMapping("detail")
-	public String detail(String content, String commentWriter, int noticeId) {
+	public String detail(String content, String commentWriter, int noticeId, String delete) {
 
-		Comment comment = new Comment();
-		comment.setContent(content);
-		comment.setWriter_id(commentWriter);
-		comment.setNotice_id(noticeId);
-
-		noticeService.insertComment(comment);
+		// 댓글 삭제 버튼을 눌렀을 때(댓글 쓰기 버튼을 누르지 않았을 때)
+		if (delete != null) {
+			noticeService.deleteComment(Integer.parseInt(delete));
+		}
+		// 댓글 삭제 버튼을 누르지 않았을 때(댓글 쓰기 버튼을 눌렀을 때)
+		else {
+			Comment comment = new Comment();
+			comment.setContent(content);
+			comment.setWriter_nickname(commentWriter);
+			comment.setNotice_id(noticeId);
+			noticeService.insertComment(comment);
+		}
 
 		return "redirect:detail?id=" + noticeId;
 	}
@@ -131,7 +137,6 @@ public class NoticeController {
 
 	// 첨부파일 다운로드
 	@GetMapping("attach/{UUID}")
-	@ResponseBody
 	public ResponseEntity<Resource> downloadAttach(@PathVariable("UUID") String uuid) throws MalformedURLException {
 
 		// 파일 id로 특정 파일 찾기

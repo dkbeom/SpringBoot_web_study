@@ -24,7 +24,7 @@
 				<label class="hidden">검색분류</label>
 				<select name="f" >
 					<option value="title" <c:if test="${param.f == 'title'}">selected</c:if> >제목</option>
-					<option value="writer_id" <c:if test="${param.f == 'writer_id'}">selected</c:if> >작성자</option>
+					<option value="writer_nickname" <c:if test="${param.f == 'writer_nickname'}">selected</c:if> >작성자</option>
 				</select>
 				<label class="hidden">검색어</label>
 				<input type="text" name="q" value="${param.q}" />
@@ -64,7 +64,7 @@
 							<td class="title indent text-align-left">
 								<a href="detail?id=${n.id}">${n.title}</a>
 							</td>
-							<td>${n.writer_id}</td>
+							<td>${n.writer_nickname}</td>
 							<td><fmt:formatDate pattern="yyyy-MM-dd" value="${n.regdate}" /></td>
 							<td>${n.hit}</td>
 							<td>${n.cmt_count}</td>

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Notice {
 	private int id;
 	private String title;
-	private String writer_id;
+	private String writer_nickname;
 	private String content;
 	private Date regdate;
 	private int hit;
@@ -16,11 +16,11 @@ public class Notice {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Notice(int id, String title, String writer_id, String content, Date regdate, int hit, String fileUUID,
+	public Notice(int id, String title, String writer_nickname, String content, Date regdate, int hit, String fileUUID,
 			boolean pub) {
 		this.id = id;
 		this.title = title;
-		this.writer_id = writer_id;
+		this.writer_nickname = writer_nickname;
 		this.content = content;
 		this.regdate = regdate;
 		this.hit = hit;
@@ -44,12 +44,12 @@ public class Notice {
 		this.title = title;
 	}
 
-	public String getWriter_id() {
-		return writer_id;
+	public String getWriter_nickname() {
+		return writer_nickname;
 	}
 
-	public void setWriter_id(String writer_id) {
-		this.writer_id = writer_id;
+	public void setWriter_nickname(String writer_nickname) {
+		this.writer_nickname = writer_nickname;
 	}
 
 	public String getContent() {
@@ -94,7 +94,7 @@ public class Notice {
 
 	@Override
 	public String toString() {
-		return "Notice [id=" + id + ", title=" + title + ", writer_id=" + writer_id + ", content=" + content
+		return "Notice [id=" + id + ", title=" + title + ", writer_nickname=" + writer_nickname + ", content=" + content
 				+ ", regdate=" + regdate + ", hit=" + hit + ", fileUUID=" + fileUUID + ", pub=" + pub + "]";
 	}
 }
