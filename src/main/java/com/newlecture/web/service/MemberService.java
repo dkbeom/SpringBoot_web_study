@@ -15,4 +15,7 @@ public interface MemberService {
 	
 	// 닉네임 중복체크
 	boolean checkNicknameDuplicate(String nickname);
+	
+	// 가상계좌 업데이트
+	boolean findByIdAndUpdate(String id, String vbank_num, String vbank_date, String vbank_name);
 }

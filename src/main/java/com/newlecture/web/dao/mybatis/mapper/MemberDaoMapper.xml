@@ -32,4 +32,13 @@
 		WHERE NICKNAME = #{nickname}
 	</select>
 	
+	<update id="findByIdAndUpdate">
+		UPDATE MEMBER
+		SET
+			VBANK_NUM = #{vbank_num},
+			VBANK_DATE = #{vbank_date},
+			VBANK_NAME = #{vbank_name}
+		WHERE ID = #{id}
+	</update>
+	
 </mapper>

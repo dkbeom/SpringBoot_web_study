@@ -40,4 +40,9 @@ public class MybatisMemberDao implements MemberDao {
 	public String getIdByNickname(String nickname) {
 		return mapper.getIdByNickname(nickname);
 	}
+
+	@Override
+	public boolean findByIdAndUpdate(String id, String vbank_num, String vbank_date, String vbank_name) {
+		return mapper.findByIdAndUpdate(id, vbank_num, vbank_date, vbank_name);
+	}
 }

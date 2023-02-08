@@ -13,4 +13,6 @@ public interface MemberDao {
 	String getIdById(String id);
 	
 	String getIdByNickname(String nickname);
+
+	boolean findByIdAndUpdate(String id, String vbank_num, String vbank_date, String vbank_name);
 }

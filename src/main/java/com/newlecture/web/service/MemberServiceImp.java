@@ -62,4 +62,10 @@ public class MemberServiceImp implements MemberService {
 		return isNicknameDuplicate;
 	}
 
+	@Override
+	public boolean findByIdAndUpdate(String id, String vbank_num, String vbank_date, String vbank_name) {
+		
+		return memberDao.findByIdAndUpdate(id, vbank_num, vbank_date, vbank_name);
+	}
+
 }

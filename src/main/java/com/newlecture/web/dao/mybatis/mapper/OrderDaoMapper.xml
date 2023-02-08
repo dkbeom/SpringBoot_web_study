@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.OrderDao">
+
+	<insert id="insertOrder" parameterType="com.newlecture.web.entity.Order" >
+		INSERT INTO ORDERS
+		VALUES(#{merchant_uid},
+			#{pg_provider},
+			#{pay_method},
+			#{name},
+			#{amount},
+			#{buyer_email},
+			#{buyer_name},
+			#{buyer_tel},
+			#{buyer_addr},
+			#{buyer_postcode})
+	</insert>
+	
+	<select id="findById" resultType="com.newlecture.web.entity.Order">
+		SELECT * FROM ORDERS
+		WHERE MERCHANT_UID = #{merchant_uid}
+	</select>
+	
+	<update id="updateOrder" parameterType="Map">
+		UPDATE ORDERS
+		SET
+		MERCHANT_UID = #{order.merchant_uid},
+		PG_PROVIDER = #{order.pg_provider},
+		PAY_METHOD = #{order.pay_method},
+		NAME = #{order.name},
+		AMOUNT = #{order.amount},
+		BUYER_EMAIL = #{order.buyer_email},
+		BUYER_NAME = #{order.buyer_name},
+		BUYER_TEL = #{order.buyer_tel},
+		BUYER_ADDR = #{order.buyer_addr},
+		BUYER_POSTCODE = #{order.buyer_postcode}
+		WHERE MERCHANT_UID = #{merchant_uid}
+	</update>
+	
+</mapper>
