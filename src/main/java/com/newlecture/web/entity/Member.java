@@ -37,9 +37,9 @@ public class Member {
 		this.birthday = birthday;
 		this.isLunar = isLunar;
 		this.phone = phone;
-		//this.regdate = regdate;
+		//this.regdate = regdate; // DB에 넣을 때, DB에서 알아서 값을 넣어준다
 		this.email = email;
-		//this.age = age;
+		//this.age = age;         // 컨트롤러에서 "현재 연도 - 생일 연도 + 1" 계산해서 나이 넣어줌
 		this.boss_id = boss_id;
 		this.code = code;
 	}

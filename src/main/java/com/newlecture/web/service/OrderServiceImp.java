@@ -33,7 +33,5 @@ public class OrderServiceImp implements OrderService {
 		map.put("order", order);
 		
 		return orderDao.updateOrder(map);
-//		return orderDao.updateOrder(order);
-	}
-
+	}	
 }

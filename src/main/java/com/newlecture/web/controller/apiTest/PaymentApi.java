@@ -18,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.newlecture.web.entity.Member;
 import com.newlecture.web.entity.Order;
+import com.newlecture.web.service.CoolSmsService;
 import com.newlecture.web.service.MemberService;
 import com.newlecture.web.service.OrderService;
 
@@ -50,6 +52,9 @@ public class PaymentApi {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private CoolSmsService coolSmsService;
 	
 
 	@GetMapping("kakaoPay")
@@ -173,9 +178,7 @@ public class PaymentApi {
 
 	// 결제 성공 후에, 주문 레코드(DB)의 값과 실제 결제 정보를 비교해서 검증
 	@PostMapping("iamport/complete")
-	@ResponseBody
-	// public String iamport(String imp_uid, String merchant_uid) {
-	public String iamport(String imp_uid, String merchant_uid, HttpSession session) {
+	public String iamportValidateOrder(String imp_uid, String merchant_uid, HttpSession session) {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 		
@@ -317,24 +320,23 @@ public class PaymentApi {
 						memberService.findByIdAndUpdate(loginMember.getId(), vbank_num, vbank_date, vbank_name);
 						
 						// 가상계좌 발급 안내 문자메시지 전송
-						// SMS.send()
-						
-						// 응답 객체에 값 넣기
-						// status: "success", message: "일반 결제 성공"
+						if (loginMember != null && loginMember.getPhone() != null) {
+							coolSmsService.sendSms(loginMember.getPhone(), "가상계좌가 발급되었습니다");
+						}
 						
 						break;
 					case "paid": // 결제 완료
 						
-						// 응답 객체에 값 넣기
-						// status: "success", message: "일반 결제 성공"
+						// 결제 완료 안내 문자메시지 전송
+						if (loginMember != null && loginMember.getPhone() != null) {
+							coolSmsService.sendSms(loginMember.getPhone(), "결제가 완료되었습니다");
+						}
 						
 						break;
 				}
 			} else { // 결제금액 불일치(위/변조된 결제)
-				//throw {status:"forgery", message:"위조된 결제시도"};
+				System.out.println("위조된 결제시도");
 			}
-			
-			return "";
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -342,6 +344,6 @@ public class PaymentApi {
 			e.printStackTrace();
 		}
 
-		return "{\"result\":\"NO\"}";
+		return "redirect:";
 	}
 }
