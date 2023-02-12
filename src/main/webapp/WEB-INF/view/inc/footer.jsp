@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<style>
+	#footer-image {
+		width: 150px;
+	}
+</style>
+    
 	<footer id="footer">
 		<div class="content-container">
 			<h2 id="footer-logo">
-				<img src="/images/logo-footer.png" alt="회사정보">
+				<img src="/images/myImages/shopping-day-reverse.png" alt="회사정보"
+					id="footer-image">
 			</h2>
 
 			<div id="company-info">

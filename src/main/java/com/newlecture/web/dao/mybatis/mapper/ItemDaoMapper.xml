@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.ItemDao">
+
+	<select id="getItemList" resultType="com.newlecture.web.entity.Item">
+		SELECT * FROM ITEM
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test='query != null'>
+				NAME LIKE '%${query}%'
+			</if>
+			<if test='isAdmin==false'>
+				AND PUB = 1
+			</if>
+		</trim>
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(ID) COUNT FROM ITEM
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test='query != null'>
+				NAME LIKE '%${query}%'
+			</if>
+			<if test='isAdmin==false'>
+				AND PUB = 1
+			</if>
+		</trim>
+	</select>
+
+	<select id="selectItem" resultType="com.newlecture.web.entity.Item">
+		SELECT * FROM ITEM
+		WHERE ID = #{id}
+	</select>
+
+	<insert id="insertItem" parameterType="com.newlecture.web.entity.Item" >
+		INSERT INTO ITEM(NAME, PRICE, PUB)
+		VALUES(#{imageUUID}, #{name}, #{price}, #{pub})
+	</insert>
+	
+	<update id="updateItem" parameterType="com.newlecture.web.entity.Item">
+		UPDATE ITEM
+		SET 
+			IMAGEUUID = #{imageUUID},
+			NAME = #{name},
+			PRICE = #{price},
+			PUB = #{pub}
+		WHERE ID = #{id}
+	</update>
+	
+	<delete id="deleteItem">
+		DELETE ITEM
+		WHERE ID = #{id}
+	</delete>
+	
+	<delete id="deleteAllItem">
+		DELETE ITEM
+		WHERE
+		<foreach item="id" collection="ids" open="ID IN (" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<update id="updatePubAllItem">
+		BEGIN
+			UPDATE ITEM
+			SET PUB = 1
+			WHERE 
+			<foreach item="id" collection="pubIds" open="ID IN (" separator="," close=")">
+	        	#{id}
+    		</foreach>
+			;
+    		UPDATE ITEM
+			SET PUB = 0
+			WHERE 
+			<foreach item="id" collection="closeIds" open="ID IN (" separator="," close=")">
+	        	#{id}
+    		</foreach>
+			;
+    	END;
+	</update>
+	
+	<update id="scoreItem">
+		BEGIN
+			UPDATE ITEM
+			SET SUM_SCORE = #{new_sum_score}
+			WHERE ID = #{id}
+			;
+			UPDATE ITEM
+			SET NUM_SCORE = #{new_num_score}
+			WHERE ID = #{id}
+			;
+		END;
+	</update>
+	
+	<select id="getSumOfScore">
+		SELECT SUM_SCORE
+		FROM ITEM
+		WHERE ID = #{id}
+	</select>
+	
+	<select id="getNumOfScore">
+		SELECT NUM_SCORE
+		FROM ITEM
+		WHERE ID = #{id}
+	</select>
+	
+</mapper>

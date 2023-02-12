@@ -51,8 +51,8 @@
 						</c:if>
 					</tr>
 				</thead>
+				
 				<tbody>
-
 					<!-- 공지사항 목록(forEach문 반복) -->
 					<c:forEach var="n" items="${list}">
 						<c:set var="open" value=""/>
@@ -74,7 +74,6 @@
 							</c:if>
 						</tr>
 					</c:forEach>
-
 				</tbody>
 			</table>
 		</div>

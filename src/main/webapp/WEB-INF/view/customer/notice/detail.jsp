@@ -11,7 +11,23 @@
 	table button:hover {
 		background: #FFBEBE;
 	}
+	table #attachedImageButton:hover {
+		text-decoration: underline;
+		cursor:pointer;
+	}
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+	$(document).bind('ready', function(){
+		$('#attachedImageButton').click(function(){
+			if($('#attachedImage').css('display') === 'none'){
+				$('#attachedImage').css('display','');
+			}else{
+				$('#attachedImage').css('display','none');
+			}
+		});
+	});
+</script>
 <main>
 	<h2 class="main title">공지사항</h2>
 
@@ -47,7 +63,8 @@
 				<tr>
 					<th>첨부파일</th>
 					<td colspan="3" style="text-align: left; text-indent: 10px;">
-						<a href="images/${n.fileUUID}">${fileName}</a>
+						<%-- <a href="images/${n.fileUUID}">${fileName}</a> --%>
+						<span id="attachedImageButton">${fileName}</span>
 					</td>
 				</tr>
 				<tr class="content">
@@ -55,6 +72,10 @@
 				</tr>
 			</tbody>
 		</table>
+	</div>
+	
+	<div id="attachedImage" style="display: none;">
+		<img src="images/${n.fileUUID}" alt="첨부파일 이미지" />
 	</div>
 
 	<div class="margin-top text-align-center">
@@ -107,13 +128,14 @@
 			<tbody>
 				<tr>
 					<th>다음글</th>
-					<td colspan="3" class="text-align-left text-indent"><a
-						href="detail?id=${next.id}">${next.title}</a></td>
+					<td colspan="3" class="text-align-left text-indent">
+						<a href="detail?id=${next.id}">${next.title}</a>
+					</td>
 				</tr>
 				<tr>
 					<th>이전글</th>
-					<td colspan="3" class="text-align-left text-indent"><a
-						class="text-blue text-strong" href="detail?id=${prev.id}">${prev.title}</a>
+					<td colspan="3" class="text-align-left text-indent">
+						<a class="text-blue text-strong" href="detail?id=${prev.id}">${prev.title}</a>
 					</td>
 				</tr>
 			</tbody>

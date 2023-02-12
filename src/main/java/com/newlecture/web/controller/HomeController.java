@@ -1,69 +1,98 @@
 package com.newlecture.web.controller;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.newlecture.web.entity.FileEntity;
+import com.newlecture.web.entity.Item;
 import com.newlecture.web.entity.Member;
 import com.newlecture.web.entity.NoticeView;
+import com.newlecture.web.service.FileService;
+import com.newlecture.web.service.ItemService;
 import com.newlecture.web.service.NoticeService;
 
 @Controller
 @RequestMapping("/")
 public class HomeController {
+
+	@Autowired
+	private NoticeService noticeService;
+
+	@Autowired
+	private ItemService itemService;
 	
 	@Autowired
-	private NoticeService service;
+	private FileService fileService;
 	
-	@RequestMapping("index")
-	public String index(HttpServletRequest request, Model model) {
-		
-		// 공지사항 가져오기
-		List<NoticeView> list = service.getViewList(false);
-		model.addAttribute("list", list);
-		
-		// 세션이 있다면 세션 반환, 세션이 없다면 null 반환
-		HttpSession session = request.getSession(false);
-		
-		// 로그인을 안한 상태라면 (세션이 존재하지 않는다면)
-		if(session == null) {
+
+	@GetMapping("index")
+	public String index(HttpSession session, Model model) {
+
+		// 보여질 상품 리스트
+		List<Item> itemList = itemService.getItemList(false);
+		model.addAttribute("itemList", itemList);
+		// 보여질 상품 갯수
+		int numOfItem = itemService.getCount(false);
+		model.addAttribute("numOfItem", numOfItem);
+
+		//////////////////////////////////////////////////////////////////////////
+		// 로그인 상태에 따라, 다른 상황(보이는 공지사항이 다름)
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		List<NoticeView> noticeList;
+		// 관리자일 경우
+		if (loginMember != null && loginMember.getCode() == 0) {
+			System.out.println("관리자 로그인 성공");
+			// 공지사항 가져오기
+			noticeList = noticeService.getViewList(true);
+			model.addAttribute("noticeList", noticeList);
 			return "home.index";
 		}
-		
-		Member loginMember = (Member)session.getAttribute("loginSession");
-		
-		// 여기서 의문? loginMember에 null 값이 들어갈 수도 있는데
-		
-		// loginMember 라는 세션 아이디가 존재하면
-		if(loginMember != null) {	
-			// 로그인은 한 상태지만, 회원 코드가 없을 때
-			if(loginMember.getCode() == null) {
-				return "home.index";
-			}
-			// 관리자일 경우
-			else if(loginMember.getCode() == 0) {
-				System.out.println("관리자 로그인 성공");
-				list = service.getViewList(true);
-				model.addAttribute("list", list);
-				return "home.index";
-			}
-			// 일반 회원일 경우
-			else {
-				System.out.println("일반 회원 로그인 성공");
-				return "home.index";
-			}
+		// 일반 회원일 경우
+		else if (loginMember != null && loginMember.getCode() != 0) {
+			System.out.println("일반 회원 로그인 성공");
+			// 공지사항 가져오기
+			noticeList = noticeService.getViewList(false);
+			model.addAttribute("noticeList", noticeList);
+			return "home.index";
 		}
-		return "home.index";
+		// 로그인이 안된 경우
+		else {
+			System.out.println("로그인 실패");
+			// 공지사항 가져오기
+			noticeList = noticeService.getViewList(false);
+			model.addAttribute("noticeList", noticeList);
+			return "home.index";
+		}
 	}
-	
-	@RequestMapping("help")
+
+	@GetMapping("help")
 	public String help() {
 		return "home.help";
+	}
+
+	// 상품 이미지 파일 출력
+	@GetMapping(value = "images", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE })
+	@ResponseBody
+	public Resource image(@RequestParam("UUID") String uuid) throws MalformedURLException {
+
+		System.out.println("file 꺼내기 직전인데, uuid => "+uuid);
+		FileEntity fileEntity = fileService.findByUUID(uuid);
+		System.out.println("file의 아이디는 => "+fileEntity.getId());
+
+		return new UrlResource("file:" + fileEntity.getSavedPath());
 	}
 }

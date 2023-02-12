@@ -1,7 +1,6 @@
 package com.newlecture.web.entity;
 
 import java.util.Date;
-import java.util.List;
 
 public class NoticeView extends Notice {
 	

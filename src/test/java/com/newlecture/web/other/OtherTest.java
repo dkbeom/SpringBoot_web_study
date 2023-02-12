@@ -9,15 +9,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import com.newlecture.web.service.CoolSmsService;
 import com.newlecture.web.service.CoolSmsServiceImp;
 
-@ExtendWith(SpringExtension.class)
-@Import(CoolSmsServiceImp.class)
 public class OtherTest {
-	
-	@Autowired
-	CoolSmsService c;
 	
 	@Test
 	public void test() {
-		c.sendSms("01075207537", "test 문자 ㄱㄱ");
+		int a = 1;
+		double b = 2;
+		double result = a/b;
+		System.out.println("계산 결과는 => "+result);
 	}
 }

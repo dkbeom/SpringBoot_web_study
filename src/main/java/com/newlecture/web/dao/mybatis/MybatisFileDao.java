@@ -36,6 +36,4 @@ public class MybatisFileDao implements FileDao {
 	public String findFileNameByUUID(String uuid) {
 		return mapper.findFileNameByUUID(uuid);
 	}
-	
-	
 }

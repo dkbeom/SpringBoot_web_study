@@ -29,7 +29,7 @@
 	</select>
 	
 	<select id="getCount" resultType="int">
-		SELECT count(id) count FROM Notice
+		SELECT COUNT(ID) COUNT FROM Notice
 		<trim prefix="WHERE" prefixOverrides="AND">
 			<if test='field == "title" or field == "writer_nickname" and query != null '>
 				${field} LIKE '%${query}%'

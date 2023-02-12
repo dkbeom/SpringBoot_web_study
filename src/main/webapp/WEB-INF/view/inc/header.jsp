@@ -11,7 +11,8 @@
 			<h1 id="logo">
 				<!-- <a href="/index.html"> -->
 				<a href="/index">
-					<img src="/images/logo.png" alt="뉴렉처 온라인" />
+					<img src="/images/myImages/shopping-day.png" alt="뉴렉처 온라인"
+						style="width: 182px; height: 35px;"/>
 				</a>
 			</h1>
 
@@ -30,11 +31,11 @@
 				<div class="sub-menu">
 
 					<section id="search-form">
-						<h1>강좌검색 폼</h1>
+						<h1>검색 폼</h1>
 						<form action="/course">
 							<fieldset>
-								<legend>과정검색필드</legend>
-								<label>과정검색</label>
+								<legend>검색필드</legend>
+								<label>검색</label>
 								<input type="text" name="q" value="" />
 								<input type="submit" value="검색" />
 							</fieldset>
