@@ -29,4 +29,7 @@
   <definition name="payment.*" template="/WEB-INF/view/payment/inc/layout.jsp" extends="layout.common">
     <put-attribute name="main" value="/WEB-INF/view/payment/{1}.jsp" />
   </definition>
+  <definition name="item.*" template="/WEB-INF/view/item/inc/layout.jsp" extends="layout.common">
+    <put-attribute name="main" value="/WEB-INF/view/item/{1}.jsp" />
+  </definition>
 </tiles-definitions>

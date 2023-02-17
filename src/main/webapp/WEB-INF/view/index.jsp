@@ -7,6 +7,13 @@
 
 	.banner1 {
 		border-bottom: 2px solid green;
+		overflow: hidden;
+		text-align: center;
+	}
+	
+	.banner1 img {
+		cursor: pointer;
+		width: 100%;
 	}
 
 	main {
@@ -71,10 +78,10 @@
 	<div class="content-container">
 	
 		<ul class="banner">
-			<li class="banner1" style="text-align: center;">
+			<li class="banner1">
 				<a href="customer/event/1">
 					<!-- <img src="/images/myImages/index_banner.png" data-id="1" style="cursor: pointer; height: 100%;" /> -->
-					<img src="/images/myImages/visual-logo.png" data-id="1" style="cursor: pointer; height: 100%;" />
+					<img src="/images/myImages/visual-logo.png" data-id="1" />
 				</a>
 			</li>
 		</ul>
@@ -143,8 +150,8 @@
 				<c:forEach var="i" begin="${(row*4)}" end="${(row*4)+3}">
 					<!-- 상품 한개 -->
 					<c:if test="${i lt numOfItem}">
-					<td class="item" onclick="location.href='';">
-						<img class="item-image" src="images?UUID=${itemList[i].imageUUID}" alt="상품" />
+					<td class="item" onclick="location.href='/item/detail?id=${itemList[i].id}';">
+						<img class="item-image" src="/file/display/${itemList[i].imageUUID}" alt="상품" />
 						<div class="item-info-wrap">
 							<div class="item-name">
 								<span>${itemList[i].name}</span>

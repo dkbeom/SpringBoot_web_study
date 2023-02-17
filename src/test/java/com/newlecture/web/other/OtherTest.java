@@ -1,21 +1,30 @@
 package com.newlecture.web.other;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.newlecture.web.service.CoolSmsService;
-import com.newlecture.web.service.CoolSmsServiceImp;
+import com.newlecture.web.entity.Item;
+import com.newlecture.web.service.ItemService;
 
+@SpringBootTest
 public class OtherTest {
+	
+	@Autowired
+	private ItemService itemService;
 	
 	@Test
 	public void test() {
-		int a = 1;
-		double b = 2;
-		double result = a/b;
-		System.out.println("계산 결과는 => "+result);
+		String a = itemService.getItem(4).getName();
+		
+		System.out.println("4번의 아이템의 이름은 => "+a);
+		
+		List<Item> list = itemService.getItemList(false);
+		
+		String b = list.get(2).getName();
+		
+		System.out.println("2번의 아이템의 이름은 => "+b);
 	}
 }

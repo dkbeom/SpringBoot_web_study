@@ -1,4 +1,4 @@
-package com.newlecture.web.controller.apiTest;
+package com.newlecture.web.controller.payment;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -178,8 +178,8 @@ public class PaymentApi {
 
 	// 결제 성공 후에, 주문 레코드(DB)의 값과 실제 결제 정보를 비교해서 검증
 	@PostMapping("iamport/complete")
-	public String iamportValidateOrder(String imp_uid, String merchant_uid, HttpSession session) {
-
+	public String iamportValidateOrder(String imp_uid, String merchant_uid, String item_name, int item_total_price, HttpSession session) {
+		
 		Member loginMember = (Member) session.getAttribute("loginSession");
 		
 		// 로그인한 상태가 아니라면
@@ -191,7 +191,7 @@ public class PaymentApi {
 			// 액세스 토큰(access token) 발급 받기
 			/////////////////////////////////////////////////////////////
 			// 출력 //
-
+			
 			URL url = new URL("https://api.iamport.kr/users/getToken");
 			// HttpURLConnection : 서버 연결을 해주는 객체
 			HttpURLConnection http = (HttpURLConnection) url.openConnection();
@@ -245,7 +245,7 @@ public class PaymentApi {
 			// imp_uid로 아임포트 서버에서 결제 정보 조회
 			//////////////////////////////////////////////////////////////
 			// 출력 //
-
+			
 			URL url2 = new URL("https://api.iamport.kr/payments/" + imp_uid);
 
 			HttpURLConnection http2 = (HttpURLConnection) url2.openConnection();
@@ -321,16 +321,20 @@ public class PaymentApi {
 						
 						// 가상계좌 발급 안내 문자메시지 전송
 						if (loginMember != null && loginMember.getPhone() != null) {
-							coolSmsService.sendSms(loginMember.getPhone(), "가상계좌가 발급되었습니다");
+							//coolSmsService.sendSms(loginMember.getPhone(), "가상계좌가 발급되었습니다");
 						}
+						
+						System.out.println("결제 상태: ready");
 						
 						break;
 					case "paid": // 결제 완료
 						
 						// 결제 완료 안내 문자메시지 전송
 						if (loginMember != null && loginMember.getPhone() != null) {
-							coolSmsService.sendSms(loginMember.getPhone(), "결제가 완료되었습니다");
+							// coolSmsService.sendSms(loginMember.getPhone(), "상품("+item_name+") 결제("+item_total_price+"원)가 완료되었습니다\n이용해주셔서 감사합니다.");
 						}
+						
+						System.out.println("결제 상태: paid");
 						
 						break;
 				}
@@ -343,7 +347,7 @@ public class PaymentApi {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return "redirect:";
 	}
 }

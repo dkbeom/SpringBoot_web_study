@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newlecture.web.entity.LoginForm;
 import com.newlecture.web.entity.Member;
@@ -47,7 +46,7 @@ public class MemberController {
 
 		// 로그인 폼에서 아이디, 비밀번호를 꺼내서 login을 시킴
 		Member loginMember = service.login(loginForm.getLoginid(), loginForm.getLoginpwd());
-
+		
 		// 로그인 실패(id, pw 에 맞는 Member가 없음)
 		if (loginMember == null) {
 			return "redirect:login";
@@ -57,6 +56,8 @@ public class MemberController {
 
 		// 세션에 Member 정보 저장
 		session.setAttribute("loginSession", loginMember);
+		
+		System.out.println("loginMember의 id는 => "+loginMember.getId());
 		
 		return "redirect:/index";
 	}

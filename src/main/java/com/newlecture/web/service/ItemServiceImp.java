@@ -39,7 +39,7 @@ public class ItemServiceImp implements ItemService {
 	}
 	
 	@Override
-	public boolean regItem(Item item) {
+	public boolean insertItem(Item item) {
 		return itemDao.insertItem(item);
 	}
 	
@@ -70,7 +70,8 @@ public class ItemServiceImp implements ItemService {
 		int num_score = itemDao.getNumOfScore(id);
 		
 		double new_sum_score = sum_score + score;
+		int new_num_score = num_score + 1;
 		
-		return itemDao.scoreItem(id, new_sum_score, num_score+1);
+		return itemDao.scoreItem(id, new_sum_score, new_num_score);
 	}
 }

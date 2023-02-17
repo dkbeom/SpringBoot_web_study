@@ -7,14 +7,14 @@ public class Item {
 	private String name;
 	private int price;
 	private double sum_score;
-	private double num_score;
+	private int num_score;
 	private boolean pub;
 	
 	public Item() {
 		
 	}
 	
-	public Item(int id, String imageUUID, String name, int price, double sum_score, double num_score, boolean pub) {
+	public Item(int id, String imageUUID, String name, int price, double sum_score, int num_score, boolean pub) {
 		this.id = id;
 		this.imageUUID = imageUUID;
 		this.name = name;
@@ -54,10 +54,10 @@ public class Item {
 	public void setSum_Score(double sum_score) {
 		this.sum_score = sum_score;
 	}
-	public double getNum_Score() {
+	public int getNum_Score() {
 		return num_score;
 	}
-	public void setNum_Score(double num_score) {
+	public void setNum_Score(int num_score) {
 		this.num_score = num_score;
 	}
 	public boolean isPub() {

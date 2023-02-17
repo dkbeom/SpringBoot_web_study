@@ -4,13 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.newlecture.web.dao.NoticeDao;
+import com.newlecture.web.dao.MemberDao;
+import com.newlecture.web.entity.Member;
 
 @SpringBootTest
+//@ExtendWith(SpringExtension.class)
+//@Import(MybatisMemberDao.class)
 class MybatisNoticeDaoTest {
 
 	@Autowired
-	private NoticeDao noticeDao;
+	private MemberDao memberDao;
 	
 	@Test
 	void test() {
@@ -22,9 +25,9 @@ class MybatisNoticeDaoTest {
 		
 //		System.out.println(noticeDao.getNext(66));
 		
-//		System.out.println(noticeDao.getPrev(70));
 		
-		
+		String member = memberDao.getIdById("admin");
+		System.out.println(member);
 	}
 
 }

@@ -28,7 +28,7 @@
 		</trim>
 	</select>
 
-	<select id="selectItem" resultType="com.newlecture.web.entity.Item">
+	<select id="getItem" resultType="com.newlecture.web.entity.Item">
 		SELECT * FROM ITEM
 		WHERE ID = #{id}
 	</select>

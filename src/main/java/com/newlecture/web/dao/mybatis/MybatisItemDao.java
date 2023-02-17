@@ -21,6 +21,7 @@ public class MybatisItemDao implements ItemDao {
 		mapper = sqlSession.getMapper(ItemDao.class);
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////
 	
 	@Override
 	public List<Item> getItemList(String query, boolean isAdmin) {

@@ -1,26 +1,18 @@
 package com.newlecture.web.controller;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.newlecture.web.entity.FileEntity;
 import com.newlecture.web.entity.Item;
 import com.newlecture.web.entity.Member;
 import com.newlecture.web.entity.NoticeView;
-import com.newlecture.web.service.FileService;
 import com.newlecture.web.service.ItemService;
 import com.newlecture.web.service.NoticeService;
 
@@ -33,10 +25,8 @@ public class HomeController {
 
 	@Autowired
 	private ItemService itemService;
-	
-	@Autowired
-	private FileService fileService;
-	
+
+	//////////////////////////////////////////////////////////////////////////////
 
 	@GetMapping("index")
 	public String index(HttpSession session, Model model) {
@@ -82,17 +72,5 @@ public class HomeController {
 	@GetMapping("help")
 	public String help() {
 		return "home.help";
-	}
-
-	// 상품 이미지 파일 출력
-	@GetMapping(value = "images", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE })
-	@ResponseBody
-	public Resource image(@RequestParam("UUID") String uuid) throws MalformedURLException {
-
-		System.out.println("file 꺼내기 직전인데, uuid => "+uuid);
-		FileEntity fileEntity = fileService.findByUUID(uuid);
-		System.out.println("file의 아이디는 => "+fileEntity.getId());
-
-		return new UrlResource("file:" + fileEntity.getSavedPath());
 	}
 }

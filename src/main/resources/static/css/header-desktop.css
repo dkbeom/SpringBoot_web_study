@@ -3,43 +3,6 @@
 
 /* === <Component Style For All Media>=================================================== */
 
-/* ----#main-menu--------------------------------------- */
-
-#main-menu{		
-	display: inline-block;	
-}
-
-#main-menu a {
-	font-family: "맑은 고딕";
-	font-weight: bold;
-	font-size: 15px;
-	
-	color: #000;
-	text-decoration: none;
-}
-
-#main-menu a:hover {
-	color: #ff6a00;	
-}
-
-#main-menu > h1{
-	display: none;
-}
-
-#main-menu > ul{	
-	overflow: auto;
-}
-
-#main-menu > ul > li{
-	float: left;	
-	padding-left: 24px;
-	background: url("/images/bg-main-menu-vsp.png") no-repeat 13px center;	
-}
-
-#main-menu > ul > li:first-child{		
-	padding-left: 0px;
-	background: none;	
-}
 
 	/* -----#search-form-------------------------------------- */
 	#search-form{
@@ -70,7 +33,7 @@
 	}
 	
 	#search-form input[type="text"]{
-		width:222px;
+		width:350px;
 		height: 25px;
 		border:0px;	
 		display: block;
@@ -83,7 +46,6 @@
 		width:31px;
 		height: 25px;
 		border: 0px;
-		vertical-align: middle;
 		display: block;	
 		float:left;
 		border-left:1px solid #8cba34;
@@ -107,49 +69,19 @@
 	#header .content-container {
 		display: block;
 		width: 960px;
+		height: inherit;
 		box-sizing: border-box;
 		position: relative;
 		margin-left: auto;
 		margin-right: auto;
-	}
-	
-	#header .hamburger-button {
-		display: none;
-	}
-	#header .search-button {
-		display: none;
-	}
-	#header .content-container {
 		text-align: unset;
-		position: relative;
-		margin-left: auto;
-		margin-right: auto;
-		height: inherit;
+		align-items: center;
 	}
 	#header .content-container .logo {
 		display: inline-block;
 		position: absolute;
 		left: 0px;
 		top: 23px;
-	}
-	#header .content-container .main-menu {
-		
-	}
-	.sub-menu.top h1 {
-		
-	}
-	
-	
-	#header .content-container{
-		position: relative;
-		align-items: center;
-	}
-	
-	.hamburger-button,
-	.search-button,
-	.more-vert-button
-	{
-		display: none;
 	}
 	
 	#logo{	
@@ -158,18 +90,10 @@
 		top:23px;
 	}
 	
-	/* ----#main-menu--------------------------------------- */
-	
-	#main-menu{			
-		position: absolute;
-		left:200px;
-		top:27px;
-	}
-	
 	/* -----#search-form----------------------------- */
 	#search-form{
 		position: absolute;
-		left:468px;
+		left:200px;
 		top:21px;
 	}
 	

@@ -75,7 +75,7 @@
 	</div>
 	
 	<div id="attachedImage" style="display: none;">
-		<img src="images/${n.fileUUID}" alt="첨부파일 이미지" />
+		<img src="/file/display/${n.fileUUID}" alt="첨부파일 이미지" />
 	</div>
 
 	<div class="margin-top text-align-center">

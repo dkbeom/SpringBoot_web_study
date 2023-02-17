@@ -1,6 +1,5 @@
 package com.newlecture.web.dao.mybatis;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;

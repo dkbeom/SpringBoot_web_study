@@ -18,7 +18,7 @@ public interface ItemService {
 	Item getItem(int id);
 
 	// 상품 등록하기
-	boolean regItem(Item item);
+	boolean insertItem(Item item);
 
 	// 상품 수정하기
 	boolean updateItem(Item item);
