@@ -2,6 +2,8 @@ package com.newlecture.web.controller.item;
 
 import java.util.UUID;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.newlecture.web.entity.Item;
+import com.newlecture.web.entity.Member;
 import com.newlecture.web.service.FileService;
 import com.newlecture.web.service.ItemService;
 
@@ -27,13 +30,28 @@ public class ItemController {
 
 	// 상품 등록하는 페이지를 열 때
 	@GetMapping("regItem")
-	public String regItem() {
+	public String regItem(HttpSession session) {
+		
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 관리자(code == 0)가 아니면, /index 로 보내기
+		if (loginMember == null || loginMember.getCode() != 0) {
+			return "redirect:/index";
+		}
+		
 		return "item.regItem";
 	}
 
 	// 상품 등록하고 난 후
 	@PostMapping("regItem")
-	public String regItem(MultipartFile file, @ModelAttribute Item item) {
+	public String regItem(MultipartFile file, @ModelAttribute Item item, HttpSession session) {
+		
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 관리자(code == 0)가 아니면, /index 로 보내기
+		if (loginMember == null || loginMember.getCode() != 0) {
+			return "redirect:/index";
+		}
 		
 		// 파일이 넘어온 경우
 		if (file != null) {

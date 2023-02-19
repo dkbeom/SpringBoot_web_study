@@ -47,6 +47,7 @@
 		border: 1px solid blue;
 		flex-grow: 10;
 		font-size: 25px;
+		padding-left: 10px;
 	}
 	
 	.favorite-btn img {
@@ -59,6 +60,7 @@
 		height: 50px;
 		border: 1px solid purple;
 		font-size: 25px;
+		padding-left: 10px;
 	}
 	
 	.buy-quantity-menu {
@@ -231,15 +233,6 @@
 	                        	item_name: '${item.name}',
 	                        	item_total_price: order.amount
 	                    	}
-	                	}).done(function (data) {
-	                  		switch(data.status){
-	                  			case "vbankIssued":
-	                  			// 가상계좌 발급 시 로직
-	                  			break;
-	                  		case "success":
-		                  		// 결제 성공 시 로직
-	                  			break;
-	                  		}
 	                	});
 	            	
 	              	 	var msg = '결제가 완료되었습니다.';
@@ -292,7 +285,7 @@
         			</div>
         		</div>
         		<div class="buy-menu">
-        			<button class="cart">장바구니</button>
+        			<button class="cart">장바구니 담기</button>
         			<button class="buy">바로구매</button>
         		</div>
         	</div>

@@ -34,7 +34,7 @@
 	</select>
 
 	<insert id="insertItem" parameterType="com.newlecture.web.entity.Item" >
-		INSERT INTO ITEM(NAME, PRICE, PUB)
+		INSERT INTO ITEM(IMAGEUUID, NAME, PRICE, PUB)
 		VALUES(#{imageUUID}, #{name}, #{price}, #{pub})
 	</insert>
 	

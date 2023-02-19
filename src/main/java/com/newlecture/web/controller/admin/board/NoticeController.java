@@ -103,9 +103,9 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, 일반회원 공지사항 리스트로 보내기
 		if (loginMember == null || loginMember.getCode() != 0) {
-			return "redirect:/customer/notice/detail?id=" + id;
+			return "redirect:/customer/notice/detail?id="+id;
 		}
 
 		Notice notice = noticeService.getNotice(id);
@@ -129,11 +129,11 @@ public class NoticeController {
 
 	// detail 페이지에서 댓글 삭제 or 댓글 쓰기 버튼을 눌렀을 때
 	@PostMapping("detail")
-	public String detail(String content, String commentWriter, int noticeId, String delete) {
+	public String detail(String content, String commentWriter, int noticeId, String deleteId) {
 
 		// 댓글 삭제 버튼을 눌렀을 때(댓글 쓰기 버튼을 누르지 않았을 때)
-		if (delete != null) {
-			noticeService.deleteComment(Integer.parseInt(delete));
+		if (deleteId != null) {
+			noticeService.deleteComment(Integer.parseInt(deleteId));
 		}
 		// 댓글 삭제 버튼을 누르지 않았을 때(댓글 쓰기 버튼을 눌렀을 때)
 		else {

@@ -5,6 +5,48 @@
 <head>
 <meta charset="UTF-8">
 <title>물품 등록</title>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+	$(document).bind('ready', function(){
+		
+		// type="file"인 input에 이미지 파일을 넣었을 때
+		$('#item-image').change(preview);
+		
+		// 이미지 미리보기
+		function preview(e){
+			
+			const file = e.target.files[0];
+			
+			if(isImageFile(file) === true && isOverSize(file) === false){
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					$('#item-image').parent('td').parent('tr')
+					.after('<tr><td><img /></td></tr>')
+					.next().children('td').children('img')
+					.attr('src', e.target.result);
+				}
+				reader.readAsDataURL(file);
+			}
+		}
+		
+		// 확장자가 이미지 파일인지 확인
+		function isImageFile(file){
+
+			const ext = file.name.split('.').pop().toLowerCase(); // 파일명에서 확장자를 가져온다. 
+
+			return ($.inArray(ext, ['jpg', 'jpeg', 'gif', 'png']) === -1) ? false : true;
+		}
+		
+		// 파일의 최대 사이즈 확인
+		function isOverSize(file){
+
+			const maxSize = 10 * 1024 * 1024; // 10MB로 제한 
+
+			return (file.size > maxSize) ? true : false;
+		}
+	});
+</script>
 </head>
 
 <main>
@@ -41,7 +83,7 @@
                                 <tr>
                                     <th>상품 이미지</th>
                                     <td colspan="3" class="text-align-left text-indent">
-                                    	<input type="file" name="file" />
+                                    	<input id="item-image" type="file" name="file" />
                                     </td>
                                 </tr>
                                 <tr>

@@ -65,10 +65,12 @@
 				
 
 				<div id="shopping-menu">
-					<a href="">
-						<img src="/images/myImages/reg-item.png" alt="상품 등록" />
-						<span>상품 등록</span>
-					</a>
+					<c:if test="${not empty loginSession and loginSession.code eq 0}">
+						<a href="/item/regItem">
+							<img src="/images/myImages/reg-item.png" alt="상품 등록" />
+							<span>상품 등록</span>
+						</a>
+					</c:if>
 					<a href="">
 						<img src="/images/myImages/wish-list.png" alt="찜 리스트"
 							id="wish-list"/>

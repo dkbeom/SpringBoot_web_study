@@ -71,7 +71,7 @@ public class NoticeController {
 
 		// 관리자라면, /index 로 보내기
 		if (loginMember != null && loginMember.getCode() == 0) {
-			return "redirect:/admin/board/notice/detail?id=" + id;
+			return "redirect:/admin/board/notice/detail?id="+id;
 		}
 
 		noticeService.hitUp(id);
@@ -96,11 +96,11 @@ public class NoticeController {
 
 	// 일반 회원이 댓글 달거나, 댓글 삭제 버튼을 눌렀을 때
 	@PostMapping("detail")
-	public String detail(String content, String commentWriter, int noticeId, String delete) {
+	public String detail(String content, String commentWriter, int noticeId, String deleteId) {
 
 		// 댓글 삭제 버튼을 눌렀을 때(댓글 쓰기 버튼을 누르지 않았을 때)
-		if (delete != null) {
-			noticeService.deleteComment(Integer.parseInt(delete));
+		if (deleteId != null) {
+			noticeService.deleteComment(Integer.parseInt(deleteId));
 		}
 		// 댓글 삭제 버튼을 누르지 않았을 때(댓글 쓰기 버튼을 눌렀을 때)
 		else {

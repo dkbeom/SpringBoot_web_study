@@ -15,6 +15,9 @@
 		text-decoration: underline;
 		cursor:pointer;
 	}
+	#attachedImage img {
+		width: 600px;
+	}
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
@@ -101,7 +104,7 @@
 						</td>
 						<td style="width: 60px;">
 							<c:if test="${not empty loginSession and c.writer_nickname eq loginSession.nickname}">
-								<button type="submit" name="delete" value="${c.comment_id}" onclick="return confirm('해당 댓글을 삭제하시겠습니까?');">삭제</button>
+								<button type="submit" name="deleteId" value="${c.comment_id}" onclick="return confirm('해당 댓글을 삭제하시겠습니까?');">삭제</button>
 							</c:if>
 						</td>
 					</tr>

@@ -11,7 +11,26 @@
 	table button:hover {
 		background: #FFBEBE;
 	}
+	table #attachedImageButton:hover {
+		text-decoration: underline;
+		cursor:pointer;
+	}
+	#attachedImage img {
+		width: 600px;
+	}
 </style>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+	$(document).bind('ready', function(){
+		$('#attachedImageButton').click(function(){
+			if($('#attachedImage').css('display') === 'none'){
+				$('#attachedImage').css('display','');
+			}else{
+				$('#attachedImage').css('display','none');
+			}
+		});
+	});
+</script>
             <main>
                 <h2 class="main title">공지사항</h2>
 
@@ -48,7 +67,8 @@
                             <tr>
                                 <th>첨부파일</th>
                                 <td colspan="3" style="text-align: left; text-indent: 10px;">
-                                	<a href="/file/display/${n.fileUUID}">${fileName}</a>
+                                	<%-- <a href="/file/display/${n.fileUUID}">${fileName}</a> --%>
+                                	<span id="attachedImageButton">${fileName}</span>
                                 </td>
                             </tr>
                             <tr class="content">
@@ -57,6 +77,10 @@
                         </tbody>
                     </table>
                 </div>
+                
+                <div id="attachedImage" style="display: none;">
+					<img src="/file/display/${n.fileUUID}" alt="첨부파일 이미지" />
+				</div>
 
                 <div class="margin-top text-align-center">
                     <a class="btn-text btn-cancel" href="list">목록</a>
@@ -84,7 +108,7 @@
 									</td>
 									<c:if test="${not empty loginSession and loginSession.code eq '0'}">
 										<td style="width:60px;">
-											<button type="submit" name="delete" value="${c.comment_id}" onclick="return confirm('해당 댓글을 삭제하시겠습니까?');">삭제</button>
+											<button type="submit" name="deleteId" value="${c.comment_id}" onclick="return confirm('해당 댓글을 삭제하시겠습니까?');">삭제</button>
 										</td>
 									</c:if>
 								</tr>

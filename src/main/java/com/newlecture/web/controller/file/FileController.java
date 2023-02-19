@@ -1,24 +1,22 @@
 package com.newlecture.web.controller.file;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriUtils;
 
 import com.newlecture.web.entity.FileEntity;
@@ -61,25 +59,25 @@ public class FileController {
 		// 응답 바디에 해당 파일 리소스 객체를 넣어준다
 		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, contentDisposition).body(resource);
 	}
-	
-	 // 이미지 출력(위에 위에 있는 메소드랑 기능이 사실 같음)
-	 @GetMapping("display/{UUID}")
-	 public ResponseEntity<byte[]> display(@PathVariable("UUID") String uuid){
-	  
-		 FileEntity fileEntity = fileService.findByUUID(uuid);
-	  
-		 File file = new File(fileEntity.getSavedPath());
-	  
-		 HttpHeaders header = new HttpHeaders();
-	  
-		 ResponseEntity<byte[]> result = null;
-	  
-		 try { // Files.probeContentType() - 해당 파일의 Content-type을 반환
-			 header.add("Content-type", Files.probeContentType(file.toPath()));
-			 // FileCopyUtils.copyToByteArray() - 해당 파일을 복사해서, byte[]로 변환
-			 result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
-		 } catch (IOException e) { e.printStackTrace(); }
-	  
-		 return result;
-	} 
+
+	// 이미지 출력(위에 위에 있는 메소드랑 기능이 사실 같음)
+//	 @GetMapping("display/{UUID}")
+//	 public ResponseEntity<byte[]> display(@PathVariable("UUID") String uuid){
+//	  
+//		 FileEntity fileEntity = fileService.findByUUID(uuid);
+//	  
+//		 File file = new File(fileEntity.getSavedPath());
+//	  
+//		 HttpHeaders header = new HttpHeaders();
+//	  
+//		 ResponseEntity<byte[]> result = null;
+//	  
+//		 try { // Files.probeContentType() - 해당 파일의 Content-type을 반환
+//			 header.add("Content-type", Files.probeContentType(file.toPath()));
+//			 // FileCopyUtils.copyToByteArray() - 해당 파일을 복사해서, byte[]로 변환
+//			 result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+//		 } catch (IOException e) { e.printStackTrace(); }
+//	  
+//		 return result;
+//	} 
 }
