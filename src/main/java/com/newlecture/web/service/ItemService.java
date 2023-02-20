@@ -3,17 +3,20 @@ package com.newlecture.web.service;
 import java.util.List;
 
 import com.newlecture.web.entity.Item;
+import com.newlecture.web.entity.Wish;
 
 public interface ItemService {
 
 	// 상품 객체 리스트 가져오기(관리자가 아니면, 공개된 상품의 갯수만)
 	List<Item> getItemList(boolean isAdmin);
+
 	List<Item> getItemList(String query, boolean isAdmin);
-	
+
 	// 상품 갯수 반환(관리자가 아니면, 공개된 상품의 갯수만)
 	int getCount(boolean isAdmin);
+
 	int getCount(String query, boolean isAdmin);
-	
+
 	// 아이디로 상품 객체 가져오기
 	Item getItem(int id);
 
@@ -34,4 +37,13 @@ public interface ItemService {
 
 	// 상품 평점 부여하기(평점 누적됨)
 	boolean scoreItem(int id, int score);
+
+	// 상품 찜하기
+	boolean insertWishlist(Wish wish);
+
+	// 상품 찜 해제하기
+	boolean deleteWishlist(Wish wish);
+
+	// 찜한 상품인지 여부 확인하기
+	boolean isWish(int item_id, String member_id);
 }

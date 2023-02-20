@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.newlecture.web.dao.ItemDao;
 import com.newlecture.web.entity.Item;
+import com.newlecture.web.entity.Wish;
 
 @Repository
 public class MybatisItemDao implements ItemDao {

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -110,10 +111,35 @@
 		
 		// 찜 버튼 toggle
 		$('.favorite-btn').click(function(){
-			if($('.favorite-btn > img').attr('src') === '/images/myImages/empty-heart.png'){
-				$('.favorite-btn > img').attr('src', '/images/myImages/full-heart.png');
-			}else{
-				$('.favorite-btn > img').attr('src', '/images/myImages/empty-heart.png');
+			// 빈 하트일 때(찜리스트에 없을 때)
+			if(${isWish} === false){
+				$.ajax({
+					url: '/item/insertWishlist',
+					method: 'GET',
+					data: {itemId: '${item.id}'},
+					success: function(){
+						alert('찜 목록에 추가되었습니다');
+						$('.favorite-btn > img').attr('src', '/images/myImages/full-heart.png');
+					},
+					error: function(){
+						alert('찜 목록에 추가하는데 error가 발생하였습니다');
+					}
+				});
+			}
+			// 채워진 하트일 때(찜리스트에 있을 때)
+			else{
+				$.ajax({
+					url: '/item/deleteWishlist',
+					method: 'GET',
+					data: {itemId: '${item.id}'},
+					success: function(){
+						alert('찜 목록에서 제거되었습니다');
+						$('.favorite-btn > img').attr('src', '/images/myImages/empty-heart.png');
+					},
+					error: function(){
+						alert('찜 목록에서 제거하는데 error가 발생하였습니다');
+					}
+				});
 			}
 		});
 		
@@ -266,7 +292,12 @@
         		<div class="item-name-favorite-btn">
         			<div class="item-name">${item.name}</div>
         			<button class="favorite-btn">
-        				<img src="/images/myImages/empty-heart.png" alt="찜 버튼" />
+        				<c:if test="${isWish eq false}">
+        					<img src="/images/myImages/empty-heart.png" alt="찜 버튼" />
+        				</c:if>
+        				<c:if test="${isWish eq true}">
+        					<img src="/images/myImages/full-heart.png" alt="찜 버튼" />
+        				</c:if>
         			</button>
         		</div>
         		<div class="price">${item.price}원</div>

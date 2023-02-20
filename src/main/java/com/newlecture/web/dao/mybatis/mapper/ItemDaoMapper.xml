@@ -105,4 +105,20 @@
 		WHERE ID = #{id}
 	</select>
 	
+	<insert id="insertWishlist">
+		INSERT INTO WISH(ITEM_ID, MEMBER_ID)
+		VALUES(#{item_id}, #{member_id})
+	</insert>
+	
+	<delete id="deleteWishlist">
+		DELETE WISH
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</delete>
+	
+	<select id="getWishId">
+		SELECT ID
+		FROM WISH
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</select>
+	
 </mapper>

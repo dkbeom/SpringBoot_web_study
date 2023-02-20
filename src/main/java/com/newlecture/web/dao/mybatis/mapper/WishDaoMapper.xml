@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.WishDao">
+
+	<insert id="insertWishlist" parameterType="com.newlecture.web.entity.Wish">
+		INSERT INTO WISH(ITEM_ID, ITEM_NAME, MEMBER_ID)
+		VALUES(#{item_id}, #{item_name}, #{member_id})
+	</insert>
+	
+	<delete id="deleteWishlist" parameterType="com.newlecture.web.entity.Wish">
+		DELETE WISH
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</delete>
+	
+	<select id="getWishId" resultType="Integer">
+		SELECT ID
+		FROM WISH
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</select>
+	
+</mapper>
