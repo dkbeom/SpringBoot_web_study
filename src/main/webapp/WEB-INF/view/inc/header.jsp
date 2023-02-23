@@ -71,12 +71,12 @@
 							<span>상품 등록</span>
 						</a>
 					</c:if>
-					<a href="">
+					<a href="/item/wishlist">
 						<img src="/images/myImages/wish-list.png" alt="찜 리스트"
 							id="wish-list"/>
 						<span>찜 리스트</span>
 					</a>
-					<a href="">
+					<a href="/item/cart">
 						<img src="/images/myImages/shopping-cart.png" alt="장바구니"
 							id="shopping-cart" />
 						<span>장바구니</span>

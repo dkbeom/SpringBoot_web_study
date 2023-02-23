@@ -16,6 +16,7 @@ public class Member {
 	private String email;
 	private int age;
 	private String boss_id;
+	private String address;
 	private Integer code;
 	// 가상계좌
 	private String vbank_num;  // 가상계좌 입금계좌번호
@@ -27,8 +28,8 @@ public class Member {
 	}
 
 	public Member(String id, String pwd, String name, String nickname,
-					String gender, String birthday, String isLunar,
-					String phone, String email, String boss_id, Integer code) {
+					String gender, String birthday, String isLunar, String phone,
+					String email, String boss_id, String address, Integer code) {
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
@@ -41,6 +42,7 @@ public class Member {
 		this.email = email;
 		//this.age = age;         // 컨트롤러에서 "현재 연도 - 생일 연도 + 1" 계산해서 나이 넣어줌
 		this.boss_id = boss_id;
+		this.address = address;
 		this.code = code;
 	}
 
@@ -140,6 +142,14 @@ public class Member {
 		this.boss_id = boss_id;
 	}
 	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 	public Integer getCode() {
 		return code;
 	}
@@ -176,7 +186,7 @@ public class Member {
 	public String toString() {
 		return "Member [id=" + id + ", pwd=" + pwd + ", name=" + name + ", nickname=" + nickname + ", gender=" + gender
 				+ ", birthday=" + birthday + ", isLunar=" + isLunar + ", phone=" + phone + ", regdate=" + regdate
-				+ ", email=" + email + ", age=" + age + ", boss_id=" + boss_id + ", code=" + code + ", vbank_num="
-				+ vbank_num + ", vbank_date=" + vbank_date + ", vbank_name=" + vbank_name + "]";
+				+ ", email=" + email + ", age=" + age + ", boss_id=" + boss_id + ", address=" + address + ", code="
+				+ code + ", vbank_num=" + vbank_num + ", vbank_date=" + vbank_date + ", vbank_name=" + vbank_name + "]";
 	}
 }

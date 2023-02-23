@@ -16,8 +16,8 @@
 	<!-- join -->
 	<insert id="insertMember" parameterType="com.newlecture.web.entity.Member" >
 		INSERT INTO
-		MEMBER(ID, PWD, NAME, NICKNAME, GENDER, BIRTHDAY, IS_LUNAR, PHONE, EMAIL, AGE, BOSS_ID, CODE)
-		VALUES(#{id}, #{pwd}, #{name}, #{nickname}, #{gender}, #{birthday}, #{isLunar}, #{phone}, #{email}, #{age}, #{boss_id}, #{code})
+		MEMBER(ID, PWD, NAME, NICKNAME, GENDER, BIRTHDAY, IS_LUNAR, PHONE, EMAIL, AGE, BOSS_ID, ADDRESS, CODE)
+		VALUES(#{id}, #{pwd}, #{name}, #{nickname}, #{gender}, #{birthday}, #{isLunar}, #{phone}, #{email}, #{age}, #{boss_id}, #{address}, #{code})
 	</insert>
 	
 	<!-- checkIdDuplicate -->

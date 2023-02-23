@@ -1,19 +1,21 @@
 package com.newlecture.web.entity;
 
-public class Wish {
+public class Cart {
 	
 	private int id;
 	private int item_id;
 	private String member_id;
+	private int quantity;
 	
-	public Wish() {
+	public Cart() {
 		
 	}
-	
-	public Wish(int id, int item_id, String member_id) {
+
+	public Cart(int id, int item_id, String member_id, int quantity) {
 		this.id = id;
 		this.item_id = item_id;
 		this.member_id = member_id;
+		this.quantity = quantity;
 	}
 
 	public int getId() {
@@ -39,9 +41,17 @@ public class Wish {
 	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Override
 	public String toString() {
-		return "Wish [id=" + id + ", item_id=" + item_id + ", member_id=" + member_id + "]";
+		return "Cart [id=" + id + ", item_id=" + item_id + ", member_id=" + member_id + ", quantity=" + quantity + "]";
 	}
 }

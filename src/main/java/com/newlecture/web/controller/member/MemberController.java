@@ -30,14 +30,22 @@ public class MemberController {
 
 	// 로그인 창에 진입할 때
 	@GetMapping("login")
-	public String login() {
+	public String login(HttpSession session) {
+
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 로그인한 상태라면, /index 로 이동
+		if (loginMember != null) {
+			return "redirect:/index";
+		}
+
 		return "member.login";
 	}
 
 	// 로그인 정보를 입력하고 난 후
 	@PostMapping("login")
-	public String login(@ModelAttribute LoginForm loginForm, HttpSession session,
-						BindingResult bindingResult, Model model) {
+	public String login(@ModelAttribute LoginForm loginForm, HttpSession session, BindingResult bindingResult,
+			Model model) {
 
 		// loginForm에 타입 오류가 발생할 경우
 		if (bindingResult.hasErrors()) {
@@ -46,7 +54,7 @@ public class MemberController {
 
 		// 로그인 폼에서 아이디, 비밀번호를 꺼내서 login을 시킴
 		Member loginMember = service.login(loginForm.getLoginid(), loginForm.getLoginpwd());
-		
+
 		// 로그인 실패(id, pw 에 맞는 Member가 없음)
 		if (loginMember == null) {
 			return "redirect:login";
@@ -56,9 +64,9 @@ public class MemberController {
 
 		// 세션에 Member 정보 저장
 		session.setAttribute("loginSession", loginMember);
-		
-		System.out.println("loginMember의 id는 => "+loginMember.getId());
-		
+
+		System.out.println("loginMember의 id는 => " + loginMember.getId());
+
 		return "redirect:/index";
 	}
 
@@ -87,7 +95,7 @@ public class MemberController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 로그인한 상태라면, /index 페이지로
+		// 로그인한 상태라면, /index 로 이동
 		if (loginMember != null) {
 			return "redirect:/index";
 		}
@@ -97,7 +105,14 @@ public class MemberController {
 
 	// 약관동의 창에 진입할 때
 	@PostMapping("agree")
-	public String agree(String agree) {
+	public String agree(String agree, HttpSession session) {
+
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 로그인한 상태라면, /index 로 이동
+		if (loginMember != null) {
+			return "redirect:/index";
+		}
 
 		// 약관에 동의했다면, 회원가입 창으로 넘어감
 		if (agree != null && agree.equals("true")) {
@@ -118,7 +133,7 @@ public class MemberController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 로그인한 상태라면, /index 페이지로
+		// 로그인한 상태라면, /index 로 이동
 		if (loginMember != null) {
 			return "redirect:/index";
 		}
@@ -130,7 +145,15 @@ public class MemberController {
 	@PostMapping("join")
 	public String join(String id, String id_check, String pwd, String pwd2, String name, String nickname,
 			String nickname_check, String gender, String birthday, String isLunar, String phone, String email,
-			String boss_id, String btn, String idDuplicate, String nicknameDuplicate, String scrollY, Model model) {
+			String boss_id, String address,String btn, String idDuplicate, String nicknameDuplicate, String scrollY,
+			Model model, HttpSession session) {
+
+		Member loginMember = (Member) session.getAttribute("loginSession");
+
+		// 로그인한 상태라면, /index 로 이동
+		if (loginMember != null) {
+			return "redirect:/index";
+		}
 
 		// LocalDate, 이건 그냥 생년월일로 현재 나이 계산하는데에 쓰인다
 		LocalDate birthday_ = null;
@@ -143,7 +166,7 @@ public class MemberController {
 		}
 
 		// 페이지 새로고침 이후, 이미 써놨던 정보들이 지워지지 않게 유지시켜 주려고 담는 entity
-		Member member = new Member(id, pwd, name, nickname, gender, birthday, isLunar, phone, email, boss_id, 1);
+		Member member = new Member(id, pwd, name, nickname, gender, birthday, isLunar, phone, email, boss_id, address, 1);
 		model.addAttribute("member", member);
 		model.addAttribute("pwd2", pwd2);
 
@@ -248,7 +271,7 @@ public class MemberController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 로그인한 상태라면, /index 페이지로
+		// 로그인한 상태라면, /index 로 이동
 		if (loginMember != null) {
 			return "redirect:/index";
 		}

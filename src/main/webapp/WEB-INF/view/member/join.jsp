@@ -133,6 +133,13 @@
 							class="width-half" placeholder="모르면 안적어도 됩니다^^" />
 						</td>
 					</tr>
+					<tr>
+						<th><label>주소</label></th>
+						<td colspan="3" class="text-align-left indent">
+							<input type="text" id="address" name="address" value="${member.address}"
+							class="width-half" />
+						</td>
+					</tr>
 
 					<tr>
 						<td colspan="4">

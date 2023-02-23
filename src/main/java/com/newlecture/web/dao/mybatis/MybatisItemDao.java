@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.newlecture.web.dao.ItemDao;
 import com.newlecture.web.entity.Item;
-import com.newlecture.web.entity.Wish;
 
 @Repository
 public class MybatisItemDao implements ItemDao {
@@ -33,7 +32,7 @@ public class MybatisItemDao implements ItemDao {
 	public int getCount(String query, boolean isAdmin) {
 		return mapper.getCount(query, isAdmin);
 	}
-
+	
 	@Override
 	public Item getItem(int id) {
 		return mapper.getItem(id);

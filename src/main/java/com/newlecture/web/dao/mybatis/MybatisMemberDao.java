@@ -23,7 +23,6 @@ public class MybatisMemberDao implements MemberDao {
 	
 	@Override
 	public Member getMember(String id, String password) {
-		
 		return mapper.getMember(id, password);
 	}
 

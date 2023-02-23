@@ -11,6 +11,5 @@ public class OtherTest {
 	@Test
 	public void test() {
 		
-		
 	}
 }

@@ -37,7 +37,7 @@ public class NoticeController {
 		
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 이동
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/customer/notice/list";
 		}
@@ -174,7 +174,7 @@ public class NoticeController {
 		
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 이동
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -203,7 +203,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 이동
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -225,7 +225,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 이동
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}
@@ -257,7 +257,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자(code == 0)가 아니면, /index 로 보내기
+		// 관리자(code == 0)가 아니면, /index 로 이동
 		if (loginMember == null || loginMember.getCode() != 0) {
 			return "redirect:/index";
 		}

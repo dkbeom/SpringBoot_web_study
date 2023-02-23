@@ -14,8 +14,7 @@
 			#{buyer_email},
 			#{buyer_name},
 			#{buyer_tel},
-			#{buyer_addr},
-			#{buyer_postcode})
+			#{buyer_addr})
 	</insert>
 	
 	<select id="findById" resultType="com.newlecture.web.entity.Order">
@@ -34,8 +33,7 @@
 		BUYER_EMAIL = #{order.buyer_email},
 		BUYER_NAME = #{order.buyer_name},
 		BUYER_TEL = #{order.buyer_tel},
-		BUYER_ADDR = #{order.buyer_addr},
-		BUYER_POSTCODE = #{order.buyer_postcode}
+		BUYER_ADDR = #{order.buyer_addr}
 		WHERE MERCHANT_UID = #{merchant_uid}
 	</update>
 	

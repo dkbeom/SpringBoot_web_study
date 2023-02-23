@@ -3,7 +3,6 @@ package com.newlecture.web.dao;
 import java.util.List;
 
 import com.newlecture.web.entity.Item;
-import com.newlecture.web.entity.Wish;
 
 public interface ItemDao {
 	

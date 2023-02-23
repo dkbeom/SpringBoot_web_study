@@ -303,8 +303,7 @@ public class PaymentApi {
 						(String)response2.get("buyer_email"),
 						(String)response2.get("buyer_name"),
 						(String)response2.get("buyer_tel"),
-						(String)response2.get("buyer_addr"),
-						(String)response2.get("buyer_postcode")
+						(String)response2.get("buyer_addr")
 				);
 				
 				// DB에 결제 정보 저장

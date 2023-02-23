@@ -33,7 +33,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자라면, /index 로 보내기
+		// 관리자라면, /index 로 이동
 		if (loginMember != null && loginMember.getCode() == 0) {
 			return "redirect:/admin/board/notice/list";
 		}
@@ -69,7 +69,7 @@ public class NoticeController {
 
 		Member loginMember = (Member) session.getAttribute("loginSession");
 
-		// 관리자라면, /index 로 보내기
+		// 관리자라면, /index 로 이동
 		if (loginMember != null && loginMember.getCode() == 0) {
 			return "redirect:/admin/board/notice/detail?id="+id;
 		}

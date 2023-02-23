@@ -10,13 +10,12 @@ public class Order {
 	private String buyer_name;
 	private String buyer_tel;
 	private String buyer_addr;
-	private String buyer_postcode;
 	
 	public Order() {
 	}
 	
 	public Order(String merchant_uid, String pg_provider, String pay_method, String name, int amount,
-			String buyer_email, String buyer_name, String buyer_tel, String buyer_addr, String buyer_postcode) {
+			String buyer_email, String buyer_name, String buyer_tel, String buyer_addr) {
 		this.merchant_uid = merchant_uid;
 		this.pg_provider = pg_provider;
 		this.pay_method = pay_method;
@@ -26,7 +25,6 @@ public class Order {
 		this.buyer_name = buyer_name;
 		this.buyer_tel = buyer_tel;
 		this.buyer_addr = buyer_addr;
-		this.buyer_postcode = buyer_postcode;
 	}
 
 	public String getMerchant_uid() {
@@ -101,19 +99,10 @@ public class Order {
 		this.buyer_addr = buyer_addr;
 	}
 
-	public String getBuyer_postcode() {
-		return buyer_postcode;
-	}
-
-	public void setBuyer_postcode(String buyer_postcode) {
-		this.buyer_postcode = buyer_postcode;
-	}
-
 	@Override
 	public String toString() {
 		return "Order [merchant_uid=" + merchant_uid + ", pg_provider=" + pg_provider + ", pay_method=" + pay_method
 				+ ", name=" + name + ", amount=" + amount + ", buyer_email=" + buyer_email + ", buyer_name="
-				+ buyer_name + ", buyer_tel=" + buyer_tel + ", buyer_addr=" + buyer_addr + ", buyer_postcode="
-				+ buyer_postcode + "]";
+				+ buyer_name + ", buyer_tel=" + buyer_tel + ", buyer_addr=" + buyer_addr + "]";
 	}
 }

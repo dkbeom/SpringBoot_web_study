@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.newlecture.web.dao.MemberDao;
@@ -36,7 +35,7 @@ class MemberServiceImpTest {
 		Mockito.when(memberDao.getMember("dragon", "222"))
 			.thenReturn(new Member("id456", "222", "이름456", "nickname456",
 								"남성", "1992-04-21", null,
-								"010-9876-5432", null, "bossName", 1));
+								"010-9876-5432", null, "bossName", "서울시 강동구", 1));
 		
 		// [when]
 		// 주입하고 있는 객체가 세팅됐으니, Service 객체의 메소드 바로 실행

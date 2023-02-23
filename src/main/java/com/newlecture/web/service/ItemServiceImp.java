@@ -6,18 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newlecture.web.dao.ItemDao;
-import com.newlecture.web.dao.WishDao;
 import com.newlecture.web.entity.Item;
-import com.newlecture.web.entity.Wish;
 
 @Service
 public class ItemServiceImp implements ItemService {
 	
 	@Autowired
 	private ItemDao itemDao;
-	
-	@Autowired
-	private WishDao wishDao;
 	
 	/////////////////////////////////////////////////////////////////////
 	
@@ -79,22 +74,5 @@ public class ItemServiceImp implements ItemService {
 		int new_num_score = num_score + 1;
 		
 		return itemDao.scoreItem(id, new_sum_score, new_num_score);
-	}
-	
-	@Override
-	public boolean insertWishlist(Wish wish) {
-		return wishDao.insertWishlist(wish);
-	}
-	@Override
-	public boolean deleteWishlist(Wish wish) {
-		return wishDao.deleteWishlist(wish);
-	}
-	@Override
-	public boolean isWish(int item_id, String member_id) {
-		if(wishDao.getWishId(item_id, member_id) != null) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 }

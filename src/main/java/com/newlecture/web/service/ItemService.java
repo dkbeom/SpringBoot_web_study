@@ -3,7 +3,6 @@ package com.newlecture.web.service;
 import java.util.List;
 
 import com.newlecture.web.entity.Item;
-import com.newlecture.web.entity.Wish;
 
 public interface ItemService {
 
@@ -37,13 +36,4 @@ public interface ItemService {
 
 	// 상품 평점 부여하기(평점 누적됨)
 	boolean scoreItem(int id, int score);
-
-	// 상품 찜하기
-	boolean insertWishlist(Wish wish);
-
-	// 상품 찜 해제하기
-	boolean deleteWishlist(Wish wish);
-
-	// 찜한 상품인지 여부 확인하기
-	boolean isWish(int item_id, String member_id);
 }

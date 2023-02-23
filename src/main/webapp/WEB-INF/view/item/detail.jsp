@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>물품 등록</title>
+<title>상품 자세히보기</title>
 <style>
 
 	#body {
@@ -111,36 +111,46 @@
 		
 		// 찜 버튼 toggle
 		$('.favorite-btn').click(function(){
-			// 빈 하트일 때(찜리스트에 없을 때)
-			if(${isWish} === false){
-				$.ajax({
-					url: '/item/insertWishlist',
-					method: 'GET',
-					data: {itemId: '${item.id}'},
-					success: function(){
-						alert('찜 목록에 추가되었습니다');
-						$('.favorite-btn > img').attr('src', '/images/myImages/full-heart.png');
-					},
-					error: function(){
-						alert('찜 목록에 추가하는데 error가 발생하였습니다');
+			
+			// 해당 상품이 찜 리스트에 있는지 확인
+			$.ajax({
+				url: '/item/isWish',
+				method: 'GET',
+				data: {
+						itemId: ${item.id},
+						memberId: '${loginSession.id}'
 					}
-				});
-			}
-			// 채워진 하트일 때(찜리스트에 있을 때)
-			else{
-				$.ajax({
-					url: '/item/deleteWishlist',
-					method: 'GET',
-					data: {itemId: '${item.id}'},
-					success: function(){
-						alert('찜 목록에서 제거되었습니다');
-						$('.favorite-btn > img').attr('src', '/images/myImages/empty-heart.png');
-					},
-					error: function(){
-						alert('찜 목록에서 제거하는데 error가 발생하였습니다');
-					}
-				});
-			}
+			}).done(function(isWish){
+				// 빈 하트일 때(찜리스트에 없을 때)
+				if(isWish === false){
+					$.ajax({
+						url: '/item/insertWishlist',
+						method: 'GET',
+						data: {itemId: '${item.id}'},
+						success: function(){
+							$('.favorite-btn > img').attr('src', '/images/myImages/full-heart.png');
+							
+						},
+						error: function(){
+							alert('찜 목록에 추가하는데 error가 발생하였습니다');
+						}
+					});
+				}
+				// 채워진 하트일 때(찜리스트에 있을 때)
+				else{
+					$.ajax({
+						url: '/item/deleteWishlist',
+						method: 'GET',
+						data: {itemId: '${item.id}'},
+						success: function(){
+							$('.favorite-btn > img').attr('src', '/images/myImages/empty-heart.png');
+						},
+						error: function(){
+							alert('찜 목록에서 제거하는데 error가 발생하였습니다');
+						}
+					});
+				}
+			});
 		});
 		
 		// 상품 수량 올리기
@@ -155,7 +165,27 @@
 			}
 		});
 		
-	    $(".buy").click(function(){
+		// 장바구니 담기 버튼을 눌렀을 때
+		$('.cart-button').click(function(){
+			$.ajax({
+				url: '/item/putCart',
+				method: 'POST',
+				data: {
+						item_id: ${item.id},
+						member_id: '${loginSession.id}',
+						quantity: $('.quantity').val()
+					},
+				success: function(){
+					alert('장바구니 담기 성공')
+				},
+				error: function(){
+					alert('장바구니 담기 오류');
+				}
+			});
+		});
+		
+		// 바로구매 버튼을 눌렀을 때
+	    $('.buy-button').click(function(){
 	    	
 	    	// 로그인 하지 않았는데, 구매하기 버튼을 누르면 안되게 막음
 	    	if(${empty loginSession}){
@@ -175,8 +205,7 @@
 		    		buyer_email: '${loginSession.email}',
 		    		buyer_name: '${loginSession.name}',
 		    		buyer_tel: '${loginSession.phone}',
-		    		buyer_addr: '서울특별시 강남구 삼성동',
-		    		buyer_postcode: '123-456'
+		    		buyer_addr: '${loginSession.address}'
 		    	};
 	    	
 	    	// 주문 레코드 추가를 위한 요청
@@ -238,7 +267,6 @@
 	            buyer_name: order.buyer_name,
 	            buyer_tel: order.buyer_tel,
 	            buyer_addr: order.buyer_addr,
-	            buyer_postcode: order.buyer_postcode,
 	            m_redirect_url: 'http://localhost:8080/payment/iamport',
 	            /*  
 	                모바일 결제시,
@@ -316,8 +344,8 @@
         			</div>
         		</div>
         		<div class="buy-menu">
-        			<button class="cart">장바구니 담기</button>
-        			<button class="buy">바로구매</button>
+        			<button class="cart-button">장바구니 담기</button>
+        			<button class="buy-button">바로구매</button>
         		</div>
         	</div>
         </div>

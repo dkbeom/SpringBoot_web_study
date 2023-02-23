@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.CartDao">
+
+	<insert id="insertCart" parameterType="com.newlecture.web.entity.Cart">
+		INSERT INTO CART(ITEM_ID, MEMBER_ID, QUANTITY)
+		VALUES(#{item_id}, #{member_id}, #{quantity})
+	</insert>
+	
+	<update id="updateCart" parameterType="com.newlecture.web.entity.Cart">
+		UPDATE CART
+		SET QUANTITY = #{quantity}
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</update>
+	
+	<select id="getQuantity" resultType="Integer">
+		SELECT QUANTITY
+		FROM CART
+		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="getCartlist" resultType="com.newlecture.web.entity.Cart">
+		SELECT * FROM CART
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="getCartViewList" resultType="com.newlecture.web.entity.CartView">
+		SELECT ID, ITEM_ID, MEMBER_ID, QUANTITY, IMAGEUUID, "NAME", PRICE, SUM_SCORE, NUM_SCORE, PUB
+		FROM CART LEFT OUTER JOIN (SELECT ID ITEMID, IMAGEUUID, "NAME", PRICE, SUM_SCORE, NUM_SCORE, PUB FROM ITEM) ITEM
+		ON CART.ITEM_ID = ITEM.ITEMID
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(ID) COUNT
+		FROM CART
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+</mapper>

@@ -38,7 +38,7 @@ public class MemberControllerTest {
 		given(memberService.login("newlec1","1234"))
 		.willReturn(new Member("id123", "1234", "이름123", "nickname123",
 							   "남성", "1983-03-31", "양력",
-							   "010-1234-5678", "email@email.com", null, 1));
+							   "010-1234-5678", "email@email.com", null, "서울시 강동구",1));
 		
 		// 아이디 지정
 		String memberName = "이름123";
