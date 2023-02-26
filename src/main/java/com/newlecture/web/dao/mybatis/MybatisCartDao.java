@@ -30,8 +30,8 @@ public class MybatisCartDao implements CartDao {
 	}
 
 	@Override
-	public boolean updateCart(Cart cart) {
-		return mapper.updateCart(cart);
+	public boolean updateCartQuantity(Cart cart) {
+		return mapper.updateCartQuantity(cart);
 	}
 
 	@Override
@@ -52,6 +52,16 @@ public class MybatisCartDao implements CartDao {
 	@Override
 	public int getCount(String member_id) {
 		return mapper.getCount(member_id);
+	}
+
+	@Override
+	public boolean deleteSelected(Integer[] select, String member_id) {
+		return mapper.deleteSelected(select, member_id);
+	}
+
+	@Override
+	public boolean delete(Integer delete, String member_id) {
+		return mapper.delete(delete, member_id);
 	}
 
 }

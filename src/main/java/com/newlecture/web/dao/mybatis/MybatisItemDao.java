@@ -62,19 +62,19 @@ public class MybatisItemDao implements ItemDao {
 	public boolean updatePubAllItem(int[] pubIds, int[] closeIds) {
 		return mapper.updatePubAllItem(pubIds, closeIds);
 	}
-
-	@Override
-	public boolean scoreItem(int id, double new_sum_score, int new_num_score) {
-		return mapper.scoreItem(id, new_sum_score, new_num_score);
-	}
 	
 	@Override
-	public double getSumOfScore(int id) {
+	public Double getSumOfScore(int id) {
 		return mapper.getSumOfScore(id);
 	}
 
 	@Override
-	public int getNumOfScore(int id) {
+	public Integer getNumOfScore(int id) {
 		return mapper.getNumOfScore(id);
+	}
+	
+	@Override
+	public boolean updateItemScore(int id, double new_sum_score, int new_num_score) {
+		return mapper.updateItemScore(id, new_sum_score, new_num_score);
 	}
 }

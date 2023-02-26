@@ -9,7 +9,7 @@ public interface CartDao {
 	
 	boolean insertCart(Cart cart);
 
-	boolean updateCart(Cart cart);
+	boolean updateCartQuantity(Cart cart);
 
 	Integer getQuantity(Integer item_id, String member_id);
 
@@ -18,4 +18,8 @@ public interface CartDao {
 	List<CartView> getCartViewList(String member_id);
 
 	int getCount(String member_id);
+
+	boolean deleteSelected(Integer[] select, String member_id);
+
+	boolean delete(Integer delete, String member_id);
 }

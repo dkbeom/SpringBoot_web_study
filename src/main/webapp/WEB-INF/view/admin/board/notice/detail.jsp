@@ -122,7 +122,7 @@
 										<input type="text" name="content" placeholder="댓글 추가..." style="width: 100%; height: 30px;"/>
 									</td>
 									<td style="width: 130px;">
-										<input type="submit" class="btn-text btn-default" value="댓글 게시"/>
+										<input type="submit" class="btn-text btn-default" value="등록"/>
 									</td>
 								</tr>
 							</c:if>

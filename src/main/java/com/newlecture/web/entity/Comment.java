@@ -3,6 +3,7 @@ package com.newlecture.web.entity;
 import java.util.Date;
 
 public class Comment {
+	
 	private int comment_id;
 	private String content;
 	private Date regdate;

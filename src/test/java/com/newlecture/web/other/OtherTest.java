@@ -10,6 +10,7 @@ public class OtherTest {
 
 	@Test
 	public void test() {
-		
+		Double d = 1.7;
+		System.out.println(d+0.7);
 	}
 }

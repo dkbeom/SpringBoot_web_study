@@ -21,10 +21,10 @@ public interface ItemDao {
 	boolean deleteAllItem(int[] ids);
 	
 	boolean updatePubAllItem(int[] pubIds, int[] closeIds);
-
-	boolean scoreItem(int id, double new_sum_score, int new_num_score);
 	
-	double getSumOfScore(int id);
+	Double getSumOfScore(int id);
 
-	int getNumOfScore(int id);
+	Integer getNumOfScore(int id);
+	
+	boolean updateItemScore(int id, double new_sum_score, int new_num_score);
 }

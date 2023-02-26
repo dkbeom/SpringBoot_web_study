@@ -29,13 +29,13 @@ public class HomeController {
 	//////////////////////////////////////////////////////////////////////////////
 
 	@GetMapping("index")
-	public String index(HttpSession session, Model model) {
+	public String index(String query, HttpSession session, Model model) {
 
 		// 보여질 상품 리스트
-		List<Item> itemList = itemService.getItemList(false);
+		List<Item> itemList = itemService.getItemList(query, false);
 		model.addAttribute("itemList", itemList);
 		// 보여질 상품 갯수
-		int numOfItem = itemService.getCount(false);
+		int numOfItem = itemService.getCount(query, false);
 		model.addAttribute("numOfItem", numOfItem);
 
 		//////////////////////////////////////////////////////////////////////////

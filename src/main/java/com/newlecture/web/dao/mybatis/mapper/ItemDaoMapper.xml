@@ -80,45 +80,22 @@
     	END;
 	</update>
 	
-	<update id="scoreItem">
-		BEGIN
-			UPDATE ITEM
-			SET SUM_SCORE = #{new_sum_score}
-			WHERE ID = #{id}
-			;
-			UPDATE ITEM
-			SET NUM_SCORE = #{new_num_score}
-			WHERE ID = #{id}
-			;
-		END;
-	</update>
-	
-	<select id="getSumOfScore">
+	<select id="getSumOfScore" resultType="Double">
 		SELECT SUM_SCORE
 		FROM ITEM
 		WHERE ID = #{id}
 	</select>
 	
-	<select id="getNumOfScore">
+	<select id="getNumOfScore" resultType="Integer">
 		SELECT NUM_SCORE
 		FROM ITEM
 		WHERE ID = #{id}
 	</select>
 	
-	<insert id="insertWishlist">
-		INSERT INTO WISH(ITEM_ID, MEMBER_ID)
-		VALUES(#{item_id}, #{member_id})
-	</insert>
-	
-	<delete id="deleteWishlist">
-		DELETE WISH
-		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
-	</delete>
-	
-	<select id="getWishId">
-		SELECT ID
-		FROM WISH
-		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
-	</select>
+	<update id="updateItemScore">
+		UPDATE ITEM
+		SET SUM_SCORE = #{new_sum_score}, NUM_SCORE = #{new_num_score}
+		WHERE ID = #{id}
+	</update>
 	
 </mapper>

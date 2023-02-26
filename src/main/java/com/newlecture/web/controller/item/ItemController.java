@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,11 +20,13 @@ import com.newlecture.web.entity.Cart;
 import com.newlecture.web.entity.CartView;
 import com.newlecture.web.entity.Item;
 import com.newlecture.web.entity.Member;
+import com.newlecture.web.entity.Review;
 import com.newlecture.web.entity.Wish;
 import com.newlecture.web.entity.WishView;
 import com.newlecture.web.service.CartService;
 import com.newlecture.web.service.FileService;
 import com.newlecture.web.service.ItemService;
+import com.newlecture.web.service.ReviewService;
 import com.newlecture.web.service.WishService;
 
 @Controller
@@ -41,6 +44,9 @@ public class ItemController {
 
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	private ReviewService reviewService;
 
 	////////////////////////////////////////////////////////////////////
 
@@ -98,8 +104,36 @@ public class ItemController {
 		// 찜한 상품인지 여부 확인
 		boolean isWish = wishService.isWish(id, loginMember.getId());
 		model.addAttribute("isWish", isWish);
+		
+		// 리뷰 리스트 가져오기
+		List<Review> reviewList = reviewService.getReviewList(id);
+		model.addAttribute("reviewList", reviewList);
 
 		return "item.detail";
+	}
+	
+	// 상품 디테일 페이지에서 리뷰를 삭제하거나, 리뷰를 등록했을 때
+	@PostMapping("detail")
+	public String detail(Integer deleteReviewId, String writerNickname, Integer score, String content, Integer itemId) {
+		
+		// 리뷰 삭제 버튼을 눌렀을 때
+		if(deleteReviewId != null) {
+			// 여기서, 상품 DB에도 리뷰 평점 삭제해줌
+			reviewService.deleteReview(deleteReviewId);
+		}
+		// 리뷰를 등록했을 때
+		else {
+			Review review = new Review();
+			review.setWriter_nickname(writerNickname);
+			review.setContent(content);
+			review.setItem_id(itemId);
+			review.setScore(score);
+			
+			// 여기서, 상품 DB에도 리뷰 평점 저장해줌
+			reviewService.insertReview(review);
+		}
+		
+		return "redirect:detail?id="+itemId;
 	}
 
 	// 찜 리스트 페이지를 열 때
@@ -169,7 +203,7 @@ public class ItemController {
 		// 장바구니에 해당 상품이 기존에 있었던 경우
 		else {
 			cart.setQuantity(cartService.getQuantity(item_id, member_id) + (quantity == null ? 1 : quantity));
-			cartService.addCart(cart);
+			cartService.updateCartQuantity(cart);
 		}
 	}
 	
@@ -233,13 +267,34 @@ public class ItemController {
 	}
 
 	@PostMapping("cart")
-	public void cart() {
+	public String cart(@RequestParam(name="deleteSelected", defaultValue="false") boolean deleteSelected,
+					Integer[] select, Integer delete, HttpSession session) {
 		
+		Member loginMember = (Member) session.getAttribute("loginSession");
+		
+		// 로그인한 상태가 아니면, 로그인 페이지로 이동
+		if (loginMember == null) {
+			return "redirect:/member/login";
+		}
+		
+		// 선택삭제 버튼을 눌렀을 때
+		if(deleteSelected) {
+			cartService.deleteSelected(select, loginMember.getId());
+		}
+		// 개별 삭제 버튼을 눌렀을 때
+		else {
+			cartService.delete(delete, loginMember.getId());
+		}
+		
+		return "redirect:cart";
 	}
-
-	// 장바구니 페이지에서 버튼을 눌렀을 때
-//	@PostMapping("cart")
-//	public String cart(Model model, HttpSession session) {
-//		return "redirect:cart";
-//	}
+	
+	@GetMapping("updateCartQuantity")
+	@ResponseBody
+	public void updateCartQuantity(int itemId, String memberId, int quantity) {
+		
+		Cart cart = new Cart(null, itemId, memberId, quantity);
+		
+		cartService.updateCartQuantity(cart);
+	}
 }

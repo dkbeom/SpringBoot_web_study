@@ -2,7 +2,7 @@ package com.newlecture.web.entity;
 
 public class Cart {
 	
-	private int id;
+	private Integer id;
 	private int item_id;
 	private String member_id;
 	private int quantity;
@@ -11,18 +11,18 @@ public class Cart {
 		
 	}
 
-	public Cart(int id, int item_id, String member_id, int quantity) {
+	public Cart(Integer id, int item_id, String member_id, int quantity) {
 		this.id = id;
 		this.item_id = item_id;
 		this.member_id = member_id;
 		this.quantity = quantity;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

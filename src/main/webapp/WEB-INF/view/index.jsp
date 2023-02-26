@@ -57,9 +57,16 @@
 		color: #A7383E;
 	}
 	
-	.items-table .items-row .item .item-info-wrap .item-review {
+	.items-table .items-row .item .item-info-wrap .item-rating {
 		font-size: 15px;
+		margin: 10px 0;
 	}
+	
+	.average-score {
+		color: red;
+		font-size: 20px;
+	}
+	
 </style>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
@@ -103,7 +110,7 @@
 		<!------------------ 배너 아래줄에서 가운데 섹션 ------------------>
 		
 		<section class="course-info">
-			<h1 class="title text-center">뭘 넣어야 할지</h1>
+			<h1 class="title text-center">가나다라마바사</h1>
 			<ul class="list">
 				<li>ㅋㅋㅋ</li>
 			</ul>
@@ -159,8 +166,11 @@
 							<div class="item-price">
 								<span>${itemList[i].price}원</span>
 							</div>
-							<div class="item-review">
-								<span>별점 3.5</span>
+							<div class="item-rating">
+								<span>평균 별점: </span>
+								<span class="average-score">
+									<fmt:formatNumber pattern="#.##" value="${(itemList[i].sum_score == null || itemList[i].num_score == null || itemList[i].num_score == 0) ? 0 : (itemList[i].sum_score / itemList[i].num_score)}" />
+								</span>
 							</div>
 						</div>
 					</td>

@@ -23,8 +23,8 @@ public class CartServiceImp implements CartService {
 	}
 
 	@Override
-	public boolean addCart(Cart cart) {
-		return cartDao.updateCart(cart);
+	public boolean updateCartQuantity(Cart cart) {
+		return cartDao.updateCartQuantity(cart);
 	}
 
 	@Override
@@ -45,5 +45,15 @@ public class CartServiceImp implements CartService {
 	@Override
 	public int getCount(String member_id) {
 		return cartDao.getCount(member_id);
+	}
+
+	@Override
+	public boolean deleteSelected(Integer[] select, String member_id) {
+		return cartDao.deleteSelected(select, member_id);
+	}
+
+	@Override
+	public boolean delete(Integer delete, String member_id) {
+		return cartDao.delete(delete, member_id);
 	}
 }

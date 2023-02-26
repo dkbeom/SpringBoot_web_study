@@ -53,11 +53,11 @@
 
 				<section id="search-form">
 					<h1>검색 폼</h1>
-					<form action="/course">
+					<form action="/index">
 						<fieldset>
 							<legend>검색필드</legend>
 							<label>검색</label>
-							<input type="text" name="q" value="" placeholder="찾고 싶은 상품을 검색해보세요!"/>
+							<input type="text" name="query" value="" placeholder="찾고 싶은 상품을 검색해보세요!"/>
 							<input type="submit" value="검색" />
 						</fieldset>
 					</form>

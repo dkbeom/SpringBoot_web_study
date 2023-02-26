@@ -9,7 +9,7 @@
 		VALUES(#{item_id}, #{member_id}, #{quantity})
 	</insert>
 	
-	<update id="updateCart" parameterType="com.newlecture.web.entity.Cart">
+	<update id="updateCartQuantity" parameterType="com.newlecture.web.entity.Cart">
 		UPDATE CART
 		SET QUANTITY = #{quantity}
 		WHERE ITEM_ID = #{item_id} AND MEMBER_ID = #{member_id}
@@ -38,5 +38,20 @@
 		FROM CART
 		WHERE MEMBER_ID = #{member_id}
 	</select>
+	
+	<delete id="deleteSelected">
+		DELETE CART
+		WHERE
+		<foreach item="item_id" collection="select"
+				open="ITEM_ID IN (" separator="," close=")">
+				#{item_id}
+		</foreach>
+		AND MEMBER_ID = #{member_id}
+	</delete>
+	
+	<delete id="delete">
+		DELETE CART
+		WHERE ITEM_ID = #{delete} AND MEMBER_ID = #{member_id}
+	</delete>
 	
 </mapper>

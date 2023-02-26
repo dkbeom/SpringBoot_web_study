@@ -65,14 +65,47 @@ public class ItemServiceImp implements ItemService {
 	}
 
 	@Override
-	public boolean scoreItem(int id, int score) {
+	public boolean scoreItem(int id, Integer score) {
 		
-		double sum_score = itemDao.getSumOfScore(id);
-		int num_score = itemDao.getNumOfScore(id);
+		Double sum_score = itemDao.getSumOfScore(id);
+		Integer num_score = itemDao.getNumOfScore(id);
 		
-		double new_sum_score = sum_score + score;
-		int new_num_score = num_score + 1;
+		Double new_sum_score = null;
+		if(sum_score != null) {
+			new_sum_score = sum_score + score;
+		} else {
+			new_sum_score = (double)score;
+		}
 		
-		return itemDao.scoreItem(id, new_sum_score, new_num_score);
+		Integer new_num_score = null;
+		if(num_score != null) {
+			new_num_score = num_score + 1;
+		} else {
+			new_num_score = 1;
+		}
+		
+		return itemDao.updateItemScore(id, new_sum_score, new_num_score);
+	}
+	@Override
+	public boolean cancelScore(int id, Integer score) {
+		
+		Double sum_score = itemDao.getSumOfScore(id);
+		Integer num_score = itemDao.getNumOfScore(id);
+		
+		Double new_sum_score = null;
+		if(sum_score != null && sum_score >= score) {
+			new_sum_score = sum_score - score;
+		} else {
+			new_sum_score = (double) 0;
+		}
+		
+		Integer new_num_score = null;
+		if(num_score != null && num_score >= 1) {
+			new_num_score = num_score - 1;
+		} else {
+			new_num_score = 0;
+		}
+		
+		return itemDao.updateItemScore(id, new_sum_score, new_num_score);
 	}
 }

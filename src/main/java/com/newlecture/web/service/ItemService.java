@@ -34,6 +34,9 @@ public interface ItemService {
 	// 상품 일괄 공개하기(또는 숨기기)
 	boolean updatePubAllItem(int[] pubIds, int[] closeIds);
 
-	// 상품 평점 부여하기(평점 누적됨)
-	boolean scoreItem(int id, int score);
+	// 상품 리뷰 평점 부여하기(평점 누적됨)
+	boolean scoreItem(int id, Integer score);
+	
+	// 상품 리뷰 평점 하나 빼기
+	boolean cancelScore(int id, Integer score);
 }
