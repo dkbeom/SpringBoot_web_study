@@ -21,9 +21,14 @@
 			if(isImageFile(file) === true && isOverSize(file) === false){
 				const reader = new FileReader();
 				reader.onload = function(e) {
+					
+					// 기존 미리보기 이미지 지우기
+					$('#item-image').parent('td').parent('tr').next('#preview-row').remove();
+					
+					// 이미지 파일 선택하는 행 아래에 이미지 미리보기 행을 추가해서 이미지 삽입
 					$('#item-image').parent('td').parent('tr')
-					.after('<tr><td><img /></td></tr>')
-					.next().children('td').children('img')
+					.after('<tr id="preview-row"><td><img style="padding: 20px;"/></td></tr>')
+					.next('#preview-row').children('td').children('img')
 					.attr('src', e.target.result);
 				}
 				reader.readAsDataURL(file);

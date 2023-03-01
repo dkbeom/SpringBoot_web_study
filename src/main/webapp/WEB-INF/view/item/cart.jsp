@@ -239,15 +239,17 @@
 	    	// 상품 이름 합치기
 	    	let itemName = '';
 	    	$('.item-name').each(function(index, item){
-	    		itemName += item.innerHTML.trim()+' ';
+	    		itemName += item.innerHTML.trim()+' / ';
 	    	});
+	    	const itemNames = itemName.slice(0, -3);
+	    	console.log('안녕 => '+itemNames);
 	    	
 			// 주문 생성
 			const order = {
 		    		merchant_uid: 'merchant_' + new Date().getTime(),
 		    		pg_provider: 'html5_inicis',
 		    		pay_method: 'card',
-		    		name: itemName,
+		    		name: itemNames,
 		    		amount: Number($('#total-amount').text()),
 		    		buyer_email: '${loginSession.email}',
 		    		buyer_name: '${loginSession.name}',
