@@ -294,7 +294,7 @@
 		    		buyer_addr: '${loginSession.address}'
 		    	};
 	    	
-	    	// 주문 레코드 추가를 위한 요청
+	    	// 주문 DB에 먼저 레코드 추가를 위한 요청
 	    	$.ajax({
 	    		url: '/payment/iamport/insertOrder',
 	    		data: order,
@@ -319,6 +319,7 @@
 	        // 결제창 호출
 	        // IMP.request_pay(param, callback함수)
 	        IMP.request_pay({
+	        	//pg: "kakaopay.TC0ONETIME",
 	            pg: order.pg_provider, // version 1.1.0부터 지원.
 	            /* 
 	                'kakao':카카오페이, 
