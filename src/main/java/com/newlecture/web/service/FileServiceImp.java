@@ -46,7 +46,8 @@ public class FileServiceImp implements FileService {
 		String savedName = uuid + extension;
 		
 		// 파일을 불러올 때, 사용할 파일 경로
-		String savedPath = fileDir + savedName;
+		// new File("").getAbsolutePath() => 현재 절대경로를 반환
+		String savedPath = new File("").getAbsolutePath() + fileDir + savedName;
 		
 		// 위에서 준비한 파일 정보들을 담는 FileEntity 객체 생성
 		// (FileEntity에 @Builder를 붙여줬기 때문에,

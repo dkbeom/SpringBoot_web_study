@@ -64,9 +64,8 @@ public class PaymentApi {
 
 	@PostMapping("kakaoPay")
 	@ResponseBody
-	public String kakaoPay(String aoi, String boi) {
-		System.out.println("aoi는 => " + aoi);
-		System.out.println("boi는 => " + boi);
+	public String kakaoPay() {
+		
 		try {
 			URL url = new URL("https://kapi.kakao.com/v1/payment/ready");
 
