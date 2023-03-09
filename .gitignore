@@ -37,3 +37,6 @@ build/
 
 ### 업로드한 파일 ###
 /src/main/resources/upload/
+
+### DB 연결정보 ###
+/src/main/resources/application-aws.properties
