@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.newlecture.web.dao.MemberDao;
+import com.newlecture.web.entity.LoginForm;
 import com.newlecture.web.entity.Member;
 
 @Repository("memberDao")
@@ -22,8 +23,8 @@ public class MybatisMemberDao implements MemberDao {
 	////////////////////////////////////////////////////////////////
 	
 	@Override
-	public Member getMember(String id, String password) {
-		return mapper.getMember(id, password);
+	public Member getMember(LoginForm loginForm) {
+		return mapper.getMember(loginForm);
 	}
 
 	@Override

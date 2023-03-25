@@ -1,11 +1,12 @@
 package com.newlecture.web.service;
 
+import com.newlecture.web.entity.LoginForm;
 import com.newlecture.web.entity.Member;
 
 public interface MemberService {
 	
 	// 로그인
-	Member login(String id, String password);
+	Member login(LoginForm loginForm);
 	
 	// 회원가입
 	int join(Member member);

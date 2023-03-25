@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newlecture.web.dao.MemberDao;
+import com.newlecture.web.entity.LoginForm;
 import com.newlecture.web.entity.Member;
 
 @Service("memberService")
@@ -13,9 +14,9 @@ public class MemberServiceImp implements MemberService {
 	MemberDao memberDao;
 
 	@Override
-	public Member login(String id, String password) {
+	public Member login(LoginForm loginForm) {
 		
-		Member member = memberDao.getMember(id, password);
+		Member member = memberDao.getMember(loginForm);
 
 		return member;
 	}

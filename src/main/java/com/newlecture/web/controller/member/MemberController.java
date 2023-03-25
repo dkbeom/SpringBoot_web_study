@@ -53,7 +53,7 @@ public class MemberController {
 		}
 
 		// 로그인 폼에서 아이디, 비밀번호를 꺼내서 login을 시킴
-		Member loginMember = service.login(loginForm.getLoginid(), loginForm.getLoginpwd());
+		Member loginMember = service.login(loginForm);
 
 		// 로그인 실패(id, pw 에 맞는 Member가 없음)
 		if (loginMember == null) {

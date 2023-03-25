@@ -7,7 +7,7 @@
 	<!-- login -->
 	<select id="getMember" resultType="com.newlecture.web.entity.Member" >
 		SELECT * FROM MEMBER
-		WHERE ID = #{id} AND PWD = #{password}
+		WHERE ID = #{loginid} AND PWD = #{loginpwd}
 	</select>
 	
 	<!-- logout -->
